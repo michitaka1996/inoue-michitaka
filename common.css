@@ -1,0 +1,296 @@
+/*========================================
+ボディー
+========================================*/
+body{
+  padding: 0;
+  margin: 0;
+  color: #444;
+  background: #333333;
+  line-height: 150%;
+}
+/*========================================
+その他
+========================================*/
+/* h1, h2, h3, h4, h5, h6, p{
+  margin: 0;
+  padding: 0;
+} */
+
+/*========================================
+リンク
+========================================*/
+a, a:active, a:hover{
+  /* color: #b6a489; */
+}
+/* hoverは最初に一括で指定 */
+a:hover{
+  text-decoration: none;
+}
+
+/*========================================
+site-width
+========================================*/
+.site-width{
+  width: 1450px;
+  margin: 0 auto;
+}
+/*========================================
+ヘッダー
+========================================*/
+header{
+  height: 80px;
+  background: #333333;
+  overflow: hidden;
+
+  padding-top: 20px;
+
+  border-bottom: 2px dotted #D2B48C;
+
+}
+header h1{
+  float: left;
+  position: relative;
+  top: -5px;
+  left: 180px;
+}
+header h1 a{
+  font-size: 40px;
+  color: #b6a489;
+}
+header a{
+  color: white;
+  font-family: 'Srisakdi', cursive;
+
+  text-decoration: none;
+}
+nav{
+  float: right;
+  position: absolute;
+}
+nav ul{
+  overflow: hidden;
+  list-style: none;
+  position: relative;
+  top: 4px;
+  left: 870px;
+}
+nav li{
+  float: left;
+}
+nav a{
+  margin-right: 25px;
+}
+.main-header{
+  height: 60px;
+  background: #222222;
+  box-shadow: 0px 9px 3px -3px background-color:rgba(0,0,0,0.7);
+  -webkit-box-shadow: 0px 9px 3px -3px rgba(0,0,0,0.7);
+  -moz-box-shadow: 0px 9px 3px -3px rgba(0,0,0,0.7);
+}
+.main-header nav ul li{
+  margin-right: 20px;
+}
+.main-header nav ul li a{
+  color: #b6a489;
+  text-decoration: none;
+  font-weight: lighter;
+}
+
+
+/*========================================
+メイン,メインコンテナー,コンテナーラップ
+========================================*/
+.main-container{
+  width: 100%;
+  /* あとで消すこと */
+  /* height: 600px; */
+  margin-top: 30px;
+  background: #222222;
+  /* border:3px solid #D2B48C; */
+  overflow: hidden;
+}
+
+.container-wrap{
+  width: 100%;
+  height: 600px;
+  padding: 60px;
+  margin-top: 60px;
+  box-sizing: border-box;
+}
+/*========================================
+フッター
+========================================*/
+#footer{
+  width: 100%;
+  color:white;
+  text-align: center;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+#footer a{
+  color: white;
+  text-decoration: none;
+}
+/*========================================
+フォーム各種
+========================================*/
+.form{
+  padding: 30px;
+}
+.page-1colum .form{
+
+}
+.page-1colum .form-container{
+  width: 100%;
+  background: #b6a489;
+  overflow: hidden;
+
+  margin: 0;
+}
+.page-2colum .form-container{
+  width: 100%;
+  background: #b6a489;
+  overflow: hidden;
+
+  margin: 0;
+}
+
+
+/*========================================
+input、テキストエリア、ボタン,セレクトボックス
+========================================*/
+input[type="text"], input[type="number"]{
+  width: 100%;
+  height: 45px;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+input[type="submit"]{
+  background: #333333;
+  color: white;
+
+  padding: 10px 15px;
+  margin-top: 30px;
+}
+input[type="submit"]:hover{
+  opacity: 0.8;
+  cursor: pointer;
+}
+textarea{
+  width: 100%;
+  height: 120px;
+  font-size: 16px;
+}
+.btn-container{
+  float: right;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+.btn-mid{
+  width: 150px;
+}
+.btn-primary{
+  width:100px;
+}
+select{
+  margin-right: 100%;
+  height: 40px;
+  margin-bottom: 20px;
+}
+select .age-box{
+  width: 30%;
+}
+/*========================================
+１カラムか2カラムによって,サイドバー
+========================================*/
+.page-1colum #main{
+  overflow: hidden;
+  width: 850px;
+  margin-top: 60px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 70px;
+}
+.page-2colum #main{
+  overflow: hidden;
+  width: 850px;
+  margin-top: 60px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 70px;
+}
+.page-2colum .sidebar{
+  width: 200px;
+  float: left;
+  text-align: center;
+}
+.sidebar a{
+  color: white;
+  text-decoration: none;
+
+  padding-bottom: 20px;
+}
+
+/*========================================
+画像コンテナー
+========================================*/
+.imgDrop-container{
+  overflow: hidden;
+  width: 60%;
+  height: 450px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+.area-drop{
+  background: #888888;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: block;
+}
+.input-file{
+  width: 100%;
+  height: 100%;
+}
+/* img　画像本体 */
+.prev-img{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+/*　記事投稿の方の画像 */
+.page-registProduct .imgDrop-container{
+  width: 100%;
+  height: 400px;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+.page-registProduct .area-drop{
+  background: white;
+  display: block;
+  position: relative;
+  width: 30%;
+  height: 225px;
+  float: left;
+
+  margin-left: 10px;
+  margin-right: 10px;
+
+}
+.page-registProduct .input-file{
+  height: 225px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.page-registProduct .prev-img{
+  width: 100%;
+  height: 225px;
+}
