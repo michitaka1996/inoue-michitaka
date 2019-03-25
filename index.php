@@ -7,14 +7,23 @@ debug('「「「「「「「「「「「「「「「「「「「「「「「「�
 //すでにログインしているユーザーかどうかチェック
 require('auth.php');
 
- ?>
+
+
+$dbProductData = getProductList();
+debug('取得したデータ:'.print_r($dbProductData,true));
+
+
+
+
+
+?>
 
  <?php
   $siteTitle = 'マイページ';
   require('head.php');
   ?>
 
-   <body class="page-top page-1colum">
+   <body class="page-top page-2colum">
      <?php
       require('header.php');
       ?>
@@ -25,17 +34,37 @@ require('auth.php');
          <?php
           require('mainhead.php');
           ?>
-         <!-- メインコンテナーに遊びを持たせる -->
-         <div class="container-wrap">
+            <section class="sidebar">
+
+            </section>
+
+
              <!-- ２カラムのメインの方 -->
-             <section id="main" class="">
-                 <div class="time-line">
+            <section id="main" class="">
 
-                 </div>
-             </section>
+              <div class="product-wrap">
+
+                <?php foreach ($dbProductData as $key => $val) { ?>
+                  <div class="product-list">
+                    <a href="#">
+                      <div class="product-img">
+                        <img class="product-pic" src="<?php echo $val['pic1']; ?>" alt="">
+                      </div>
+                      <div class="product-title">
+                        <a href="#">♡♡♡♡</a>
+                      </div>
+                      <div class="product-price">
+                        ¥<a href="#">111</a>
+                      </div>
+                    </a>
+                  </div>
+                <?php } ?>
 
 
-         </div>
+              </div>
+            </section>
+
+
        </section>
      </div>
 

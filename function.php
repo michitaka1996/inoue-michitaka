@@ -190,7 +190,6 @@ function getUser($u_id){
 //RuntimeExceptionはPHPが実行されているときに投げられるエラー
 function uploadImg($file, $key){
   debug('画像アップロード処理開始');
-  debug('FILE情報：'.print_r($file, true));
   //ファイルが画像形式かどうか
   if(isset($file['error']) && is_int($file['error'])){
     try{
@@ -218,7 +217,8 @@ function uploadImg($file, $key){
       debug('ファイルは正常にアップロードされました');
       debug('ファイルパス:'.$path);
       return $path;
-    }catch(Exception $e){
+
+    }catch(RuntimeException $e){
       debug($e->getMessage());
       global $err_msg;
       //$err_msg['pic']にRuntimeExceptionのエラーを表示させる
@@ -243,21 +243,42 @@ function getSessionOnce($key){
 //================================
 function getFormData($key){
   global $dbFormData;
-  if(!empty($dbFormData)){//DBにデータがある
-    if(!empty($err_msg)){//エラーメッセージがない
 
-      if(!empty($_POST)){//POST送信がない
+  if(!empty($dbFormData)){ //DBにでーたがある
+    if(!empty($err_msg[$key])){//エラーがある
+      debug('バリデーションに引っかかっています');
+      if(!empty($_POST[$key])){ //DBにデータが合ってエラーもあるしPOSTもある
         return $_POST[$key];
-      }else{
-        return $dbFormData[$key];
       }
-    }else{ //dbにデータがあってエラーはない時(通常の場合)
-      return $dbFormData[$key];
+    }else{ //DBにデータが合ってエラーがない
+      //特に定義しない
     }
-  }else{//エラーもなくてdbにデータが存在しない場合
-    return $_POST[$key];
+  }else{//DBにデータがない
+    if(!empty($_POST[$key])){//POSTがある
+      if(!empty($err_msg)){ //DBにデータはないがPOSTが合ってエラーがある
+        return $_POST[$key];
+      }
+    }
   }
 }
+
+//   if(!empty($dbFormData)){//DBにデータがある
+//     if(!empty($err_msg)){//エラーメッセージがない
+//
+//       if(!empty($_POST)){//POST送信がある
+//         return $_POST[$key];
+//       }else{
+//         return $dbFormData[$key];
+//       }
+//     }else{ //dbにデータがあってエラーはない時(通常の場合)
+//       return $dbFormData[$key];
+//     }
+//   }else{// DBにデータがない
+//     if(!empty($err_msg)){ //DBにデータがないがPOSTにエラーがある
+//       return $_POST[$key];
+//     }
+//   }
+// }
 
 //ユーザーidを元に商品情報を取得 registProduct.php
 function getProduct($u_id){
@@ -271,6 +292,7 @@ function getProduct($u_id){
     $result = $stmt->fetchAll();
     if(!empty($result)){
       debug('商品情報のフェッチ成功しました');
+      return $result;
     }else{
       return 0;
     }
@@ -284,16 +306,40 @@ function getCategory($u_id){
   debug('カテゴリ情報を取得します');
   try{
     $dbh = dbConnect();
-    $sql = 'SELECT category_id FROM category WHERE id=:u_id AND delete_flg=0';
+    $sql = 'SELECT * FROM category';
     $data = array(':u_id'=>$_SESSION['user_id']);
     $stmt = queryPost($dbh, $sql, $data);
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $result = $stmt->fetchAll();
     if(!empty($result)){
       debug('カテゴリ情報のフェッチに成功しました');
+      return $result;
+    }else{
+      return 0;
     }
   }catch(Exception $e){
     error_log('エラー発生:'.$e->getMessage());
 
+  }
+}
+
+//商品一覧表示用関数　全部のデータを取得
+//DBにある全ての商品情報を取得してくるので、それを元に総ページ数を設定でき、ページネーションに使える
+function getProductList(){
+  debug('商品一覧に表示する情報を表示させます');
+
+  try{
+    $dbh = dbConnect();
+    $sql = 'SELECT * FROM product WHERE delete_flg=0';
+    $data = array();
+    $stmt = queryPost($dbh, $sql, $data);
+    $result = $stmt->fetchAll();
+    if(!empty($result)){
+      debug('取得した全商品データ:'.print_r($result, true));
+      return $result;
+    }
+
+  }catch(Exception $e){
+    error_log('エラー発生:'.$e->getMessage());
   }
 }
 ?>

@@ -84,38 +84,39 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>　画面表�
      <div class="site-width" id="contents">
        <!--　簡易のボタン -->
        <!-- <a class="form-btn" href="mypage.php"><button type="button" name="button">押すとログイン</button><a> -->
+       <div id="main">
+         <div class="form-container">
 
-       <div class="form-container">
+           <form class="form" action="" method="post">
+             <div class="msg-area">
+               <?php if(!empty($err_msg['common'])){ echo $err_msg['common'];} ?>
+             </div>
+             <label>Email
+               <input type="text" name="email" value="">
+             </label>
+             <div class="msg-area">
+               <?php if(!empty($err_msg['email'])){ echo $err_msg['email'];} ?>
+             </div>
 
-         <form class="form" action="" method="post">
-           <div class="msg-area">
-             <?php if(!empty($err_msg['common'])){ echo $err_msg['common'];} ?>
-           </div>
-           <label>Email
-             <input type="text" name="email" value="">
-           </label>
-           <div class="msg-area">
-             <?php if(!empty($err_msg['email'])){ echo $err_msg['email'];} ?>
-           </div>
+             <label>Password
+               <input type="text" name="pass" value="">
+             </label>
+             <div class="msg-area">
+               <?php if(!empty($err_msg['pass'])){ echo $err_msg['pass'];} ?>
+             </div>
 
-           <label>Password
-             <input type="text" name="pass" value="">
-           </label>
-           <div class="msg-area">
-             <?php if(!empty($err_msg['pass'])){ echo $err_msg['pass'];} ?>
-           </div>
+             <label>
+               次回ログインを省略する
+               <input type="checkbox" name="pass_save">
+             </label>
 
-           <label>
-             次回ログインを省略する
-             <input type="checkbox" name="pass_save">
-           </label>
-
-           <div class="btn-container">
-             <input type="submit" name="" value="GO!" class="btn btn-min">
-           </div>
-         </form>
-
+             <div class="btn-container">
+               <input type="submit" name="" value="GO!" class="btn btn-min">
+             </div>
+           </form>
+         </div>
        </div>
+
 
      </div>
 

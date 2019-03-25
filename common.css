@@ -147,13 +147,13 @@ nav a{
 
   margin: 0;
 }
-.page-2colum .form-container{
+/* .page-2colum .form-container{
   width: 100%;
   background: #b6a489;
   overflow: hidden;
 
   margin: 0;
-}
+} */
 
 
 /*========================================
@@ -214,16 +214,23 @@ select .age-box{
 }
 .page-2colum #main{
   overflow: hidden;
-  width: 850px;
+  width: 1150px;
   margin-top: 60px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 0;
+  margin-right: 0;
   margin-bottom: 70px;
 }
+/* 検索　カテゴリ */
 .page-2colum .sidebar{
   width: 200px;
+  height: 600px;
   float: left;
   text-align: center;
+  border:2px solid white;
+
+  margin-top: 60px;
+  margin-left: 30px;
+  margin-right: 30px;
 }
 .sidebar a{
   color: white;
@@ -239,6 +246,7 @@ select .age-box{
   overflow: hidden;
   width: 60%;
   height: 450px;
+
   margin-left: auto;
   margin-right: auto;
   margin-top: 30px;
@@ -252,6 +260,7 @@ select .age-box{
   display: block;
 }
 .input-file{
+  opacity: 0;
   width: 100%;
   height: 100%;
 }
@@ -266,10 +275,11 @@ select .age-box{
 /*　記事投稿の方の画像 */
 .page-registProduct .imgDrop-container{
   width: 100%;
-  height: 400px;
+  height: 270px;
 
   margin-left: auto;
   margin-right: auto;
+  margin-top: 70px;
 }
 .page-registProduct .area-drop{
   background: white;
@@ -284,6 +294,7 @@ select .age-box{
 
 }
 .page-registProduct .input-file{
+  opacity: 0;
   height: 225px;
   width: 100%;
   position: absolute;

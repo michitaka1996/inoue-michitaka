@@ -54,7 +54,7 @@ debug('POST情報：'.print_r($_POST, true));
 
         if($stmt){
           debug('クエリ成功したのでセッション変数の中に値を保存します');
-          
+
           // $_SESSION['user_id'] =;
           $_SESSION['login_date'] = time();
           $sesLimit = 60*60;
@@ -90,36 +90,39 @@ debug('POST情報：'.print_r($_POST, true));
 
 
     <div class="site-width" id="contents">
-      <div class="form-container">
-        <form class="form" action="" method="post">
-          <div class="msg-area">
-            <?php if(!empty($err_msg['common'])){ echo $err_msg['common'];} ?>
-          </div>
-          <label>Email
-            <input type="text" name="email" value="">
-          </label>
-          <div class="msg-area">
-            <?php if(!empty($err_msg['email'])){ echo $err_msg['email'];} ?>
-          </div>
+      <div id="main">
+        <div class="form-container">
+          <form class="form" action="" method="post">
+            <div class="msg-area">
+              <?php if(!empty($err_msg['common'])){ echo $err_msg['common'];} ?>
+            </div>
+            <label>Email
+              <input type="text" name="email" value="">
+            </label>
+            <div class="msg-area">
+              <?php if(!empty($err_msg['email'])){ echo $err_msg['email'];} ?>
+            </div>
 
-          <label>Password
-            <input type="text" name="pass" value="">
-          </label>
-          <div class="msg-area">
-            <?php if(!empty($err_msg['pass'])){ echo $err_msg['pass'];} ?>
-          </div>
+            <label>Password
+              <input type="text" name="pass" value="">
+            </label>
+            <div class="msg-area">
+              <?php if(!empty($err_msg['pass'])){ echo $err_msg['pass'];} ?>
+            </div>
 
-          <label>Password_Retype
-            <input type="text" name="pass_re" value="">
-          </label>
-          <div class="msg-area">
-            <?php if(!empty($err_msg['pass_re'])){ echo $err_msg['pass_re'];} ?>
-          </div>
+            <label>Password_Retype
+              <input type="text" name="pass_re" value="">
+            </label>
+            <div class="msg-area">
+              <?php if(!empty($err_msg['pass_re'])){ echo $err_msg['pass_re'];} ?>
+            </div>
 
-          <div class="btn-container">
-            <input type="submit" name="" value="GO!" class="btn btn-min">
-          </div>
-        </form>
+            <div class="btn-container">
+              <input type="submit" name="" value="GO!" class="btn btn-min">
+            </div>
+          </form>
+        </div>
+
       </div>
 
     </div>
