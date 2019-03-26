@@ -324,22 +324,87 @@ function getCategory($u_id){
 
 //商品一覧表示用関数　全部のデータを取得
 //DBにある全ての商品情報を取得してくるので、それを元に総ページ数を設定でき、ページネーションに使える
-function getProductList(){
-  debug('商品一覧に表示する情報を表示させます');
+function getProductList($currentMinNum=1, $listSpan){
+  debug('');
 
   try{
-    $dbh = dbConnect();
-    $sql = 'SELECT * FROM product WHERE delete_flg=0';
+    $dbh  = dbConnect();
+
+    //とってくるデータその1 件数　ページ数
+    $sql = 'SELECT id FROM product'; //基本となるSQL①
     $data = array();
     $stmt = queryPost($dbh, $sql, $data);
-    $result = $stmt->fetchAll();
-    if(!empty($result)){
-      debug('取得した全商品データ:'.print_r($result, true));
-      return $result;
+    if($stmt){
+      $rst['total'] = $stmt->rowCount(); // 総レコード数
+      $rst['total_page'] = ceil($rst['total']/$listSpan);//総ページ数
+    }else{
+      return false;
     }
 
+    //とってくるデータその２　全ての商品情報
+    $sql = 'SELECT * FROM product';//基本となるsql②
+    $sql .= ' LIMIT '.$listSpan.' OFFSET '.$currentMinNum;//くっつける
+    $data = array();
+    debug('SQL:'.$sql);//くっつけた結果のsqlを表示
+    $stmt = queryPost($dbh, $sql, $data);
+    if($stmt){
+      $rst['data'] = $stmt->fetchAll();
+
+      /////////////////
+      return $rst; //これを最終的に返してくる
+      ////////////////
+    }else{
+      return false;
+    }
   }catch(Exception $e){
     error_log('エラー発生:'.$e->getMessage());
   }
 }
+
+//ページネーション
+function pagenation($totalPageNum, $currentPageNum){
+    debug('ページネーションのための値を取得します');
+
+    global $dbProductData;
+    $totalPageNum = $dbProductData['total_page'];
+
+    //総ページ数が5以内の場合は全て表示
+    if( $totalPageNum <= 5){
+    $minPageNum = 1;
+    $maxPageNum = $totalPageNum;
+    //総ページ数が5以上かつ現在のページが3,2,1の場合は1〜5を表示
+    }elseif( $currentPageNum <= 3){
+    $minPageNum = 1;
+    $maxPageNum = 5;
+    //総ページ数が5以上かつ現在のページが総ページ-2,-1,-0の場合はラスト5個を表示
+    }elseif( $currentPageNum >= $totalPageNum-2 ){
+    $minPageNum = $totalPageNum-4;
+    $maxPageNum = $totalPageNum;
+    //それ以外の場合は現在ページの前後2つを表示
+    }else{
+    $minPageNum = $currentPageNum - 2;
+    $maxPageNum = $currentPageNum +2;
+    }
+    debug('返した最小データmin:'.print_r($minPageNum, true));
+    debug('返した最大データmax:'.print_r($maxPageNum, true));
+    debug('最大値最小値の処理が成功しました。');
+
+    echo'<div class="pagenation">';
+      echo'<ul class="pagenation-list">';
+
+
+        if($currentPageNum !== 1 ){
+          echo'<li class="list-item"><a href="?p=1">&lt;</a></li>';
+        }
+        for($i = $minPageNum; $i <= $maxPageNum; $i++){
+          echo'<li class="list-item"><a href=?p='.$i.'>'.$i.'</a></li>';
+        }
+        if($currentPageNum !== $maxPageNum && $maxPageNum > 1){
+           echo'<li class="list-item"><a href="?p='.$maxPageNum.'">&gt;</a></li>';
+         }
+
+      echo'</ul>';
+    echo'</div>';
+  }
+
 ?>
