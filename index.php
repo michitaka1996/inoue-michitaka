@@ -19,6 +19,11 @@ debug('カテゴリ情報:'.print_r($dbCategoryData, true));
 $category = (!empty($_GET['category_id']))? $_GET['category_id'] : '';
 debug('カテゴリのgetパラメータ:'.print_r($category, true));
 
+$sort = (!empty($_GET['sort'])) ? $_GET['sort'] : '';
+debug('並べ替えのgetパラメータ:'.print_r($sort, true));
+
+
+
 //1ページごとの表示件数
 $listSpan = 20;
 
@@ -28,7 +33,7 @@ $currentMinNum = (($currentPageNum-1) * $listSpan);
 
 
 //$dbProductDataのgetProductListのsqlで、昇順、降順、ページング
-$dbProductData = getProductList($currentMinNum, $listSpan, $category);
+$dbProductData = getProductList($currentMinNum, $listSpan, $category, $sort);
 debug('取得したデータ:'.print_r($dbProductData,true));
 
 
@@ -58,10 +63,11 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理終�
                 <a class="category-name" href=?category_id=<?php echo $val['id']; ?>><?php echo $val['name']; ?></a>
               <?php endforeach; ?>
 
-              <div class="sort-serch">
-                <select name="sort">
-                  <option value="0">カテゴリを選択</option>
-                </select>
+              <div class="sort-search">
+                <form class="" action="" name="sort" method="get">
+                  <a href=?sort=1>金額の高い順</a>
+                  <a href=?sort=2>金額の安い順</a>
+                </form>
               </div>
 
               </form>

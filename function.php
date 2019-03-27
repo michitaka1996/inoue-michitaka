@@ -324,7 +324,7 @@ function getCategory(){
 
 //商品一覧表示用関数　全部のデータを取得
 //DBにある全ての商品情報を取得してくるので、それを元に総ページ数を設定でき、ページネーションに使える
-function getProductList($currentMinNum=1, $listSpan, $category){
+function getProductList($currentMinNum=1, $listSpan, $category, $sort){
   debug('商品情報(商品一覧)を開始します');
 
   try{
@@ -334,11 +334,20 @@ function getProductList($currentMinNum=1, $listSpan, $category){
     $sql = 'SELECT id FROM product'; //基本となるSQL①
 
     if(!empty($category)){
-      debug('aaa');
       //カテゴリで仕分けたい　条件としてカテゴリidはgetパラメータの番号
       $sql .= ' WHERE category_id =  '.$category;
     }
-    debug('aaaa');
+    //順番指定があれば
+    if(!empty($sort)){
+      switch($sort){
+        case 1 :
+          $sql .= ' ORDER BY price DESC';
+          break;
+        case 2 :
+          $sql .= ' ORDER BY price ASC';
+      }
+    }
+
     $data = array();
     debug('SQL:'.$sql);
     $stmt = queryPost($dbh, $sql, $data);
@@ -354,6 +363,16 @@ function getProductList($currentMinNum=1, $listSpan, $category){
     if(!empty($category)){
       //カテゴリで仕分けたい　条件としてカテゴリidはgetパラメータの番号
       $sql .= ' WHERE category_id =  '.$category;
+    }
+    //順番指定があれば
+    if(!empty($sort)){
+      switch($sort){
+        case 1 :
+          $sql .= ' ORDER BY price DESC';
+          break;
+        case 2 :
+          $sql .= ' ORDER BY price ASC';
+      }
     }
 
     $sql .= ' LIMIT '.$listSpan.' OFFSET '.$currentMinNum;//くっつける
