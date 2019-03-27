@@ -4,26 +4,31 @@ debug('「「「「「「「「「「「「「「「「「「「「「「「「�
 debug('トップページ');
 debug('「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「「');
 
-//ログインしてなくても見れるようにする
+//ログインしてなくても見れるようにする　ログイン認証は取らない
 
-//必要なデータ,
+
+//必要なデータ,getパラメータのページid,カテゴリ情報,１ページごとの商品数,1ページごとの最小商品番号
 
 //現在のページ数デフォルトはページとする
 $currentPageNum = (!empty($_GET['p']))? $_GET['p'] : 1;
 
-//検索の場合は、カテゴリとソート いまはやらないでおく
+//検索の場合は、カテゴリとソート
+$dbCategoryData = getCategory();
+debug('カテゴリ情報:'.print_r($dbCategoryData, true));
+
+$category = (!empty($_GET['category_id']))? $_GET['category_id'] : '';
+debug('カテゴリのgetパラメータ:'.print_r($category, true));
 
 //1ページごとの表示件数
 $listSpan = 20;
 
-//表示させる最小の商品iD　一番左上
+//表示させる最小の商品番号　一番左上
 //1ページ目なら、0番目　2ページ目なら20番目からスタート
 $currentMinNum = (($currentPageNum-1) * $listSpan);
 
 
 //$dbProductDataのgetProductListのsqlで、昇順、降順、ページング
-
-$dbProductData = getProductList($currentMinNum, $listSpan);
+$dbProductData = getProductList($currentMinNum, $listSpan, $category);
 debug('取得したデータ:'.print_r($dbProductData,true));
 
 
@@ -47,8 +52,17 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理終�
           require('mainhead.php');
           ?>
             <section class="sidebar">
-              <form class="" action="" method="get">
-                <a href="mypage.php">あああああ</a>
+              <form class="search-form" action="" method="get">
+
+                <?php foreach($dbCategoryData as $key => $val):?>
+                <a class="category-name" href=?category_id=<?php echo $val['id']; ?>><?php echo $val['name']; ?></a>
+              <?php endforeach; ?>
+
+              <div class="sort-serch">
+                <select name="sort">
+                  <option value="0">カテゴリを選択</option>
+                </select>
+              </div>
 
               </form>
             </section>
@@ -63,7 +77,8 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理終�
                 <!-- getProductListでの$rstで['total']['total_page']['data']と区分けして返したため、['data']の方の$valを取得 -->
                 <?php foreach ($dbProductData['data'] as $key => $val) { ?>
                   <div class="product-list">
-                    <a href="#">
+                    <!-- 商品詳細へのリンク -->
+                    <a href="productDetail.php?p_id=<?php echo $val['id']; ?>">
                       <div class="product-img">
                         <img class="product-pic" src="<?php echo $val['pic1']; ?>" alt="">
                       </div>

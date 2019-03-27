@@ -74,6 +74,8 @@
   color: white;
   font-weight: bold;
 }
+/*　カテゴリ検索欄 */
+
 /*========================================
 ページネーション
 ========================================*/
@@ -101,4 +103,69 @@
   font-size: 20px;
   font-weight: bold;
   margin-left: 10px;
+}
+/*========================================
+商品詳細ページ
+========================================*/
+.productDetail-wrap{
+  padding: 100px;
+}
+.page-productDetail #main{
+  float: left;
+  width: 40%;
+  /* border: 2px solid white; */
+
+  margin: 0 120px 0 0 ;
+}
+.product-detail{
+  float: left;
+  width: 45%;
+  border: 2px solid white;
+
+  padding: 25px;
+  margin: 0;
+}
+.productDetail-title{
+  color: white;
+  /* border: 2px solid white; */
+
+  margin-bottom: 50px;
+}
+.productDetail-title a{
+  font-size: 20px;
+  color: white;
+}
+.productDetail-title h2{
+  font-weight: bold;
+  font-size: 40px;
+}
+.img-main{
+  width: 100%;
+  height: 540px;
+  /* border: 2px solid white; */
+}
+.img-main img{
+  width: 100%;
+  height: 90%;
+}
+.img-sub{
+  width: 100%;
+  height: 140px;
+  /* border: 2px solid white; */
+  padding: 0 5px;
+}
+.img-sub img{
+  height: 100%;
+  width: 140px;
+  /* border: 1px solid white; */
+
+  margin: 0 5px;
+}
+.detail-head h2{
+  font-weight: bold;
+  font-size: 40px;
+  color: white;
+
+  padding-bottom: 20px;
+  border-bottom: 2px solid #b6a489;
 }

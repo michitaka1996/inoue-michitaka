@@ -302,12 +302,12 @@ function getProduct($u_id){
 }
 
 //ユーザーIDを元にカテゴリ情報を取得
-function getCategory($u_id){
+function getCategory(){
   debug('カテゴリ情報を取得します');
   try{
     $dbh = dbConnect();
     $sql = 'SELECT * FROM category';
-    $data = array(':u_id'=>$_SESSION['user_id']);
+    $data = array();
     $stmt = queryPost($dbh, $sql, $data);
     $result = $stmt->fetchAll();
     if(!empty($result)){
@@ -324,7 +324,7 @@ function getCategory($u_id){
 
 //商品一覧表示用関数　全部のデータを取得
 //DBにある全ての商品情報を取得してくるので、それを元に総ページ数を設定でき、ページネーションに使える
-function getProductList($currentMinNum=1, $listSpan){
+function getProductList($currentMinNum=1, $listSpan, $category){
   debug('商品情報(商品一覧)を開始します');
 
   try{
@@ -332,7 +332,15 @@ function getProductList($currentMinNum=1, $listSpan){
 
     //とってくるデータその1 件数　ページ数
     $sql = 'SELECT id FROM product'; //基本となるSQL①
+
+    if(!empty($category)){
+      debug('aaa');
+      //カテゴリで仕分けたい　条件としてカテゴリidはgetパラメータの番号
+      $sql .= ' WHERE category_id =  '.$category;
+    }
+    debug('aaaa');
     $data = array();
+    debug('SQL:'.$sql);
     $stmt = queryPost($dbh, $sql, $data);
     if($stmt){
       $rst['total'] = $stmt->rowCount(); // 総レコード数
@@ -343,8 +351,15 @@ function getProductList($currentMinNum=1, $listSpan){
 
     //とってくるデータその２　全ての商品情報
     $sql = 'SELECT * FROM product';//基本となるsql②
+    if(!empty($category)){
+      //カテゴリで仕分けたい　条件としてカテゴリidはgetパラメータの番号
+      $sql .= ' WHERE category_id =  '.$category;
+    }
+
     $sql .= ' LIMIT '.$listSpan.' OFFSET '.$currentMinNum;//くっつける
+
     $data = array();
+    debug('データ：'.print_r($data, true));
     debug('SQL:'.$sql);//くっつけた結果のsqlを表示
     $stmt = queryPost($dbh, $sql, $data);
     if($stmt){
@@ -406,5 +421,34 @@ function pagenation($totalPageNum, $currentPageNum){
       echo'</ul>';
     echo'</div>';
   }
+
+//商品詳細の商品情報
+  function getProductOne($p_id){
+    debug('商品詳細ための商品情報を取得します');
+    try{
+      $dbh = dbConnect();
+      $sql = 'SELECT p.id, p.name, p.comment, p.price, p.pic1, p.pic2, p.pic3, p.create_date, c.name AS category FROM product AS p LEFT JOIN category AS c ON p.category_id=c.id WHERE p.id=:p_id AND p.delete_flg=0 AND c.delete_flg=0';
+      //条件はp_id
+      $data = array(':p_id'=>$p_id);
+      $stmt = queryPost($dbh, $sql, $data);
+      if($stmt){
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+        debug('フェッチ成功しました');
+      }else{
+        return false;
+      }
+    }catch(Exception $e){
+      error_log('エラー発生:'.$e->getMessage());
+    }
+  }
+
+//商品詳細の画像関数
+function showImg($img){
+  if(empty($img)){
+    return 'img/noimg.jpeg';
+  }else{
+    $img;
+  }
+}
 
 ?>

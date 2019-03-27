@@ -19,7 +19,7 @@ $dbFormData = getProduct($_SESSION['user_id']);
 // debug('取得してきた商品データ:'.print_r($dbFormData,true));
 
 //DBデータから取得したカテゴリデータ
-$dbCategoryData = getCategory($_SESSION['user_id']);
+$dbCategoryData = getCategory();
 
 
 
