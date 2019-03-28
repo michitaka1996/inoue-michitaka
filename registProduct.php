@@ -81,13 +81,14 @@ if(!empty($_POST)){
 
       if(empty($edit_flg)){ //商品登録の場合
         debug('商品をDBに登録します');
-        $sql = 'INSERT INTO product (name, category_id, price, comment, pic1, pic2, pic3, create_date) VALUES(:name, :c_id, :price, :comment, :pic1, :pic2, :pic3, :date)';
-        $data = array(':name'=>$name, ':c_id'=>$categoty, ':price'=>$price, ':comment'=>$comment, ':pic1'=>$pic1, ':pic2'=>$pic2, ':pic3'=>$pic3, ':date'=>date('Y-m-d H:i:s'));
+        $sql = 'INSERT INTO product (name, category_id, price, comment, pic1, pic2, pic3, user_id, create_date) VALUES(:name, :c_id, :price, :comment, :pic1, :pic2, :pic3, :u_id, :date)';
+        $data = array(':name'=>$name, ':c_id'=>$categoty, ':price'=>$price, ':comment'=>$comment, ':pic1'=>$pic1, ':pic2'=>$pic2, ':pic3'=>$pic3, ':u_id'=>$_SESSION['user_id'], ':date'=>date('Y-m-d H:i:s'));
         debug('商品登録が完了しました');
 
       }else{
-        $sql = 'UPDATE product SET name=:name, cagtegory_id=:c_id, price=:price, comment=:comment, pic1=:pic1, pic2=:pic2, pic3=:pic3, update_date=:date';
-        $data = array(':name'=>$name, ':c_id'=>$categoty, ':price'=>$price, ':pic1'=>$pic1, ':pic2'=>$pic2, ':pic3'=>$pic3, ':date'=>date('Y-m-d H:i:s'));
+        debug('商品情報を更新します');
+        $sql = 'UPDATE product SET name=:name, cagtegory_id=:c_id, price=:price, comment=:comment, pic1=:pic1, pic2=:pic2, pic3=:pic3, user_id=:u_id, update_date=:date';
+        $data = array(':name'=>$name, ':c_id'=>$categoty, ':price'=>$price, ':pic1'=>$pic1, ':pic2'=>$pic2, ':pic3'=>$pic3, ':u_id'=>$_SESSION['user_id'], ':date'=>date('Y-m-d H:i:s'));
         debug('商品編集が完了しました');
       }
         $stmt = queryPost($dbh, $sql, $data);

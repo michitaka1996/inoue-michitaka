@@ -446,7 +446,7 @@ function pagenation($totalPageNum, $currentPageNum){
     debug('商品詳細ための商品情報を取得します');
     try{
       $dbh = dbConnect();
-      $sql = 'SELECT p.id, p.name, p.comment, p.price, p.pic1, p.pic2, p.pic3, p.create_date, c.name AS category FROM product AS p LEFT JOIN category AS c ON p.category_id=c.id WHERE p.id=:p_id AND p.delete_flg=0 AND c.delete_flg=0';
+      $sql = 'SELECT p.id, p.name, p.comment, p.price, p.pic1, p.pic2, p.pic3, p.user_id, p.create_date, c.name AS category FROM product AS p LEFT JOIN category AS c ON p.category_id=c.id WHERE p.id=:p_id AND p.delete_flg=0 AND c.delete_flg=0';
       //条件はp_id
       $data = array(':p_id'=>$p_id);
       $stmt = queryPost($dbh, $sql, $data);
@@ -469,5 +469,33 @@ function showImg($img){
     $img;
   }
 }
+// 基本のパラメータである?$key=　を生成 getパラメータの生成ができれば&以降はif文で追加することができる
+function getParam($key){
+  debug('GETパラメータを付与します');
 
+  //in_arrayで引数と同じ$Keyなければ付与
+  $str = '?';
+  //get送信を$keyと$valに分解したいのでforeachを使う
+  foreach($_GET as $key => $val):
+    $param = $str.$key.'='.$val;
+  endforeach;
+
+  return $param;
+
+  if(!empty($param)){
+  }
+}
+
+//商品詳細で連絡掲示板へ移動するためのログイン認証関数
+function isLogin(){
+  debug('ログイン認証を確認します');
+
+  if(!empty($_SESSION['login_date'])){
+    debug('すでにログインしていますので新規掲示板を作成して連絡掲示板へ遷移します');
+    return true;
+  }else{
+    debug('ログインしていないユーザーなのでログイン推奨を出します');
+    return false;
+  }
+}
 ?>

@@ -11,6 +11,7 @@ debug('「「「「「「「「「「「「「「「「「「「「「「「「�
 
 //現在のページ数デフォルトはページとする
 $currentPageNum = (!empty($_GET['p']))? $_GET['p'] : 1;
+debug('ゲット送信の内容:'.print_r($_GET, true));
 
 //検索の場合は、カテゴリとソート
 $dbCategoryData = getCategory();
@@ -18,6 +19,7 @@ debug('カテゴリ情報:'.print_r($dbCategoryData, true));
 
 $category = (!empty($_GET['category_id']))? $_GET['category_id'] : '';
 debug('カテゴリのgetパラメータ:'.print_r($category, true));
+
 
 $sort = (!empty($_GET['sort'])) ? $_GET['sort'] : '';
 debug('並べ替えのgetパラメータ:'.print_r($sort, true));
@@ -35,6 +37,8 @@ $currentMinNum = (($currentPageNum-1) * $listSpan);
 //$dbProductDataのgetProductListのsqlで、昇順、降順、ページング
 $dbProductData = getProductList($currentMinNum, $listSpan, $category, $sort);
 debug('取得したデータ:'.print_r($dbProductData,true));
+
+
 
 
 debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理終了');
@@ -60,13 +64,13 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理終�
               <form class="search-form" action="" method="get">
 
                 <?php foreach($dbCategoryData as $key => $val):?>
-                <a class="category-name" href=?category_id=<?php echo $val['id']; ?>><?php echo $val['name']; ?></a>
+                <a class="category-name" href="<?php echo (!empty($_GET['sort']))? getParam('sort').'&category_id=' : '?category_id='; ?><?php echo $val['id']; ?>"><?php echo $val['name']; ?></a>
               <?php endforeach; ?>
 
               <div class="sort-search">
                 <form class="" action="" name="sort" method="get">
-                  <a href=?sort=1>金額の高い順</a>
-                  <a href=?sort=2>金額の安い順</a>
+                  <a href="<?php echo (!empty($_GET['category_id']))? getParam('category_id').'&sort=' : '?sort='; ?><?php echo 1 ?>">金額の高い順</a>
+                  <a href="<?php echo (!empty($_GET['category_id']))? getParam('category_id').'&sort=' : '?sort='; ?><?php echo 2 ?>">金額の安い順</a>
                 </form>
               </div>
 
