@@ -10,7 +10,7 @@ if(!empty($_SESSION['login_date'])){
       debug('マイページへ遷移します');
       header("Location:mypage.php");
     }
-
+      
 
   }else{
     debug('ログイン有効期限オーバーです');

@@ -64,11 +64,11 @@ function queryPost($dbh, $sql, $data){
 
   $stmt = $dbh->prepare($sql);
   debug('クエリ実行準備は完了しています');
-  print $sql.'<br>';
-  var_dump($data);
+  // print $sql.'<br>';
+  // var_dump($data);
 
   // $stmt->execute($data);
-  // debug('エグゼキュート成功です');　これいらない
+  // debug('エグゼキュート成功です');
 
   //プレースホルダに値をセットし、SQL文を実行
   if(!$stmt->execute($data)){
@@ -80,6 +80,11 @@ function queryPost($dbh, $sql, $data){
     debug('成功したSQL:'.print_r($stmt, true));
   return $stmt;
  }
+}
+
+//サニタイズ
+function sanitize($str){
+  return htmlspecialchars($str, ENT_QUOTES);
 }
 
 
@@ -96,7 +101,10 @@ define('MSG09', 'ログインできません。EmailまたはPasswordが違い�
 define('MSG10', '失敗しました');
 define('MSG11', '電話番号の形式で入力してください');
 define('MSG12', '再入力したパスワードと合っていません');
+define('MSG13', '掲示板は180文字以内で入力してください');
 define('SUC01', 'マイページです！');
+define('SUC02', '購入しました！連絡を待ってください！');
+define('SUC03', 'ログインしてから購入してください!');
 
 $err_msg = array();
 
@@ -164,7 +172,12 @@ function validTel($str, $key){
     $err_msg[$key] = MSG11;
   }
 }
-
+function validMsgLen($str, $key, $max = 180){
+  if(mb_strlen($str) > $max){
+    global $err_msg;
+    $err_msg[$key] = MSG13;
+  }
+}
 
 //ユーザー情報取得関数
 function getUser($u_id){
@@ -172,7 +185,7 @@ function getUser($u_id){
   try{
     $dbh = dbConnect();
     $sql = 'SELECT * FROM users WHERE id=:u_id AND delete_flg=0';
-    $data = array(':u_id'=>$_SESSION['user_id']);
+    $data = array(':u_id'=>$u_id);
     $stmt = queryPost($dbh, $sql, $data);
     $result = $stmt -> fetch(PDO::FETCH_ASSOC);
     if($result){
@@ -229,6 +242,7 @@ function uploadImg($file, $key){
 //Jsの投稿しました！のやつ
 //セッションを1回だけも持たせる
 function getSessionOnce($key){
+  debug('１回だけセッションを取得します');
   if(!empty($_SESSION[$key])){
     $data = $_SESSION[$key];
     //セッションを持たせてから、空にする
@@ -280,20 +294,21 @@ function getFormData($key){
 //   }
 // }
 
-//ユーザーidを元に商品情報を取得 registProduct.php
-function getProduct($u_id){
+//商品情報を取得 registProduct.php
+function getProduct($id){
   debug('商品登録・編集のために商品情報を取得します');
 
   try{
     $dbh = dbConnect();
-    $sql = 'SELECT * FROM product WHERE id=:u_id AND delete_flg=0';
-    $data = array(':u_id'=>$_SESSION['user_id']);
+    $sql = 'SELECT * FROM product WHERE id=:id AND delete_flg=0';
+    $data = array(':id'=>$id);
     $stmt = queryPost($dbh, $sql, $data);
     $result = $stmt->fetchAll();
     if(!empty($result)){
       debug('商品情報のフェッチ成功しました');
       return $result;
     }else{
+      debug('商品情報がフェッチできませんでした');
       return 0;
     }
   }catch(Exception $e){
@@ -466,7 +481,7 @@ function showImg($img){
   if(empty($img)){
     return 'img/noimg.jpeg';
   }else{
-    $img;
+    return $img;
   }
 }
 // 基本のパラメータである?$key=　を生成 getパラメータの生成ができれば&以降はif文で追加することができる
@@ -486,7 +501,92 @@ function getParam($key){
   }
 }
 
-//商品詳細で連絡掲示板へ移動するためのログイン認証関数
+
+
+//掲示板とメッセージのデータを取得
+//boardにマッチするmessageのデータ
+//どっちにマッチするどっちのデータを検索するのか
+function getMsgsAndBoard($m_id){
+  debug('掲示板とそのメッセージを取得します');
+  try{
+    $dbh = dbConnect();
+    //外部結合　rightjoin
+    //SELECTで指定するのはboardテーブルとmessageテーブルの情報
+    //そもそも、userデータを取得してくるには、各idが必要である
+    //掲示板のメッセージは昇順で取得させる
+    $sql = 'SELECT m.id AS m_id, m.board_id, m.send_date, m.to_user, m.from_user, m.msg, b.sale_user, b.buy_user, b.product_id, b.create_date FROM message AS m RIGHT JOIN board AS b ON b.id = m.board_id WHERE b.id = :id ORDER BY send_date ASC ';
+    $data = array(':id'=> $m_id);
+    $stmt = queryPost($dbh, $sql, $data);
+
+    if($stmt){
+      debug('aaaaaa');
+      return $stmt-> fetchAll();
+      debug('クエリ成功したので情報をフェッチします');
+    }else{
+      return false;
+    }
+
+  }catch(Exception $e){
+    error_log('エラー発生:'.$e->getMessage());
+  }
+}
+
+
+//お気に入りにデータを登録したか確認
+function isLike($u_id, $p_id){
+  debug('お気に入り情報が存在するか確認します');
+  debug('指定したユーザー:'.$u_id);
+  debug('指定した商品:'.$p_id);
+  try{
+    $dbh = dbConnect();
+    $sql = 'SELECT * FROM `like` WHERE product_id=:p_id AND user_id=:u_id';
+    $data = array(':p_id'=>$p_id, ':u_id'=>$u_id);
+    $stmt = queryPost($dbh, $sql, $data);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    if(!empty($result)){
+      debug('お気に入りにすでに登録されています');
+      return true;
+    }else{
+      debug('まだお気に入りに登録されていません');
+      return false;
+    }
+  }catch(Exception $e){
+    error_log('エラー発生:'.$e->getMessage());
+  }
+}
+
+//お気に入りデータ
+function myLikeData($u_id){
+  debug('ユーザーのお気に入り情報を取得します');
+  try{
+    $dbh = dbConnect();
+    $sql = 'SELECT * FROM `like` AS l LEFT JOIN product AS p ON l.product_id = p.id WHERE l.user_id = :u_id ';
+    $data = array(':u_id'=>$u_id);
+    $stmt = queryPost($dbh, $sql, $data);
+    $result = $stmt -> fetchAll();
+    if(!empty($stmt)){
+      debug('全てフェッチ成功です');
+      return $result;
+
+    }else{
+      debug('フェッチ失敗です');
+      return 0;
+    }
+  }catch(Exception $e){
+    error('エラー発生:'.$e->getMessage());
+  }
+}
+
+
+//   }catch(Exception $e){
+//     error_log('エラー発生:'.$e->getMessage());
+//     var_dump($e);
+//   }
+// }
+
+//ログイン認証
+//お気に入りのajax
+//商品詳細で連絡掲示板へ移動するための
 function isLogin(){
   debug('ログイン認証を確認します');
 
@@ -498,4 +598,13 @@ function isLogin(){
     return false;
   }
 }
+
+
+
+
+
+
+
+
+
 ?>

@@ -53,6 +53,68 @@
     };
     fileReader.readAsDataURL(file);
   });
+  //================================
+  // 商品詳細での画像切り替え
+  //================================
+  var $switchImgSubs = $('.js-switch-img-sub'),
+      $switchImgMain = $('#js-switch-img-main');
+  $switchImgSubs.on('click', function(e){
+    $switchImgMain.attr('src', $(this).attr('src'));
+  });
+
+
+
+//================================
+  //Ajax
+  //================================
+var $like,
+    likeProductId;
+
+
+$like = $('.js-click-like') || null;
+likeProductId = $like.data('productid') || null;
+
+//数値の0はfalseと判定
+if(likeProductId !== undefined && likeProductId !== null){
+  $like.on('click', function(){
+    var $this = $(this);
+    $.ajax({
+      type:"POST",//通信形式
+      url:"likeAjax.php",//通信先
+      data:{ productId : likeProductId}//渡すキーはproductIdとして　その値はlikeProductId
+    }).done(function(data){
+      console.log('Ajax Success');
+      $this.toggleClass('active');//activeクラス(html)を付け外しする
+    }).fail(function(msg){
+      console.log('Ajax Error');
+    });
+  });
+}
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

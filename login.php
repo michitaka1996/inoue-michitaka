@@ -76,6 +76,9 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>　画面表�
  ?>
 
   <body class="page-top page-1colum">
+    <p id="js-show-msg" style="display:none;" class="msg-slide">
+      <?php echo getSessionOnce('msg_success'); ?>
+    </p>
     <?php
      require('header.php');
      ?>

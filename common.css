@@ -11,18 +11,15 @@ body{
 /*========================================
 その他
 ========================================*/
-/* h1, h2, h3, h4, h5, h6, p{
+ h1, h2, h3, h4, h5, h6, p{
   margin: 0;
   padding: 0;
-} */
+  color: white;
+} 
 
 /*========================================
 リンク
 ========================================*/
-a, a:active, a:hover{
-  /* color: #b6a489; */
-}
-/* hoverは最初に一括で指定 */
 a:hover{
   text-decoration: none;
 }
@@ -80,6 +77,9 @@ nav li{
 nav a{
   margin-right: 25px;
 }
+/*========================================
+メインの方のヘッダー
+========================================*/
 .main-header{
   height: 60px;
   background: #222222;
@@ -101,9 +101,8 @@ nav a{
 メイン,メインコンテナー,コンテナーラップ
 ========================================*/
 .main-container{
+  position: relative;
   width: 100%;
-  /* あとで消すこと */
-  /* height: 600px; */
   margin-top: 30px;
   background: #222222;
   /* border:3px solid #D2B48C; */
@@ -183,7 +182,7 @@ input[type="submit"]:hover{
 textarea{
   width: 100%;
   height: 120px;
-  font-size: 16px;
+  font-size: 20px;
 }
 .btn-container{
   float: right;
@@ -200,7 +199,7 @@ textarea{
   width:150px;
   height: 100px;
   font-size: 30px;
-  
+
   border-radius: 10%;
 }
 select{
@@ -322,3 +321,24 @@ select .age-box{
   width: 100%;
   height: 225px;
 }
+/*========================================
+お気に入りicon
+========================================*/
+.icon-like:hover{
+  cursor: pointer;
+}
+.icon-like.active{
+   color: red;
+}
+
+
+
+
+
+
+
+
+
+
+
+

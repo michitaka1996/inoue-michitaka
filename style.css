@@ -7,11 +7,11 @@
   top: 0;
   width: 100%;
   height: 40px;
-  /* background: rgba(122, 206, 230, 0.6); */
   background: rgba(245,255,54,0.9);
   text-align: center;
   font-size: 16px;
   line-height: 40px;
+
   margin: 0 ;
 }
 
@@ -21,19 +21,10 @@
 .product-wrap{
   overflow: hidden;
   width: 1140px;
-  /* あとで消す */
-  /* height: 600px; */
   box-sizing: border-box;
 
   padding: 60px;
 }
-/* .sidebar{
-  width: 300px;
-  height: 600px;
-  border: 2px soild white;
-
-  margin:0;
-} */
 .product-list{
   /* 各商品パネル */
   float: left;
@@ -111,11 +102,11 @@
 ========================================*/
 .productDetail-wrap{
   padding: 100px;
+
 }
 .page-productDetail #main{
   float: left;
   width: 40%;
-  /* border: 2px solid white; */
 
   margin: 0 120px 100px 0 ;
 }
@@ -128,8 +119,8 @@
   margin: 0;
 }
 .productDetail-title{
+  position: relative;
   color: white;
-  /* border: 2px solid white; */
 
   margin-bottom: 50px;
 }
@@ -141,10 +132,25 @@
   font-weight: bold;
   font-size: 40px;
 }
+/*商品お気に入りアイコン*/
+.product-icon{
+  position: absolute;
+  top: 55px;
+  right: 0;
+}
+.product-back{
+  position: absolute;
+  bottom: 200px;
+  right: 100px;
+
+  font-size: 30px;
+  color: white;
+  text-align: left;
+
+}
 .img-main{
   width: 100%;
   height: 540px;
-  /* border: 2px solid white; */
 }
 .img-main img{
   width: 100%;
@@ -153,21 +159,248 @@
 .img-sub{
   width: 100%;
   height: 140px;
-  /* border: 2px solid white; */
   padding: 0 5px;
 }
 .img-sub img{
   height: 100%;
   width: 140px;
-  /* border: 1px solid white; */
 
   margin: 0 5px;
 }
-.detail-head h2{
+/*.detail-head{
+  width: 100%;
+}*/
+.product-detail h2{
   font-weight: bold;
   font-size: 40px;
   color: white;
 
   padding-bottom: 20px;
   border-bottom: 2px solid #b6a489;
+
+  margin:0;
 }
+.product-comment{
+  color: white;
+  font-size: 25px;
+  word-wrap: break-word;
+  margin:0;
+}
+
+/*========================================
+購入後連絡掲示板
+========================================*/
+.msg-container{
+  padding: 150px;
+}
+.msgProduct-container{
+  overflow: hidden;
+  height: 200px;
+
+  padding: 40px 90px;
+}
+.msg-main{
+  border: 2px solid white;
+
+  padding: 50px;
+  margin-bottom: 30px;
+}
+/* 販売者情報 */
+.user-data{
+  float:left;
+  width: 55%;
+  height: 100%;
+}
+.board-product{
+  float: left;
+  width: 43%;
+  height: 100%;
+}
+/* 出品者のプロフ画像 */
+.msg-pic{
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+.user-individual, .product-individual{
+  color: white;
+}
+.msgProduct-pic{
+  width: 100px;
+  height: 100px;
+  border-radius: 10%;
+}
+/*========================================
+購入後連絡掲示板,チャット
+========================================*/
+.chat-container{
+  overflow: hidden;
+
+  margin-bottom: 10px;
+}
+.msg-right{
+  overflow: hidden;
+  width: 100%;
+
+  margin-bottom: 40px;
+}
+.msg-left{
+  overflow: hidden;
+  width: 100%;
+
+  margin-bottom: 40px;
+}
+.chat-img-left{
+  float: left;
+  width: 100px;
+  height:100px;
+  border-radius: 50%;
+
+  margin-right: 20px;
+  margin-bottom: 40px;
+}
+.chat-img-right{
+  float: right;
+  width: 100px;
+  height:100px;
+  border-radius: 50%;
+
+  margin-left: 20px;
+  margin-bottom: 40px;
+}
+.chat-msg-left{
+  position: relative;
+  display: inline;
+  /* あとで消す */
+  width: 750px;
+  border: 1px solid white;
+  box-sizing: border-box;
+
+  color: white;
+  font-size: 25px;
+  font-weight: bold;
+
+  padding-top: 30px;
+  padding-bottom: 35px;
+  padding-left: 10px;
+  
+  margin: auto 0;
+}
+.chat-msg-left::before{
+  content: '';
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+  left: -15px;
+  top: 20px;
+  border-right: 15px solid white;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+}
+.chat-msg-right{
+  position: relative;
+  display: inline;
+  /* あとで消す */
+  width: 750px;
+  border: 1px solid white;
+  box-sizing: border-box;
+
+  color: white;
+  font-size: 25px;
+  font-weight: bold;
+
+  padding-top: 30px;
+  padding-bottom: 35px;
+  padding-right: 10px;
+  
+  margin: auto 0;
+}
+
+.chat-msg-right::before{
+  content: '';
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+  right: -15px;
+  top: 20px;
+  border-left: 15px solid white;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+}
+
+/*========================================
+マイページ
+========================================*/
+.mypage-main-wrap{
+  /*後で消す*/
+  /*height: 600px;*/
+  padding:60px; 
+}
+.my-img{
+  width: 100%;
+  height:200px;
+  border-radius: 50%;
+
+  margin-bottom: 10px;
+}
+.prof-username{
+  color: white;
+  font-size: 20px;
+
+  margin-bottom: 40px;
+}
+/*お気に入り一覧*/
+.like-mypage{
+  overflow: hidden;
+  /*消す*/
+  /*height: 200px;*/
+  /*border:1px solid white;*/
+
+  margin-left:auto;
+  margin-right:auto;
+  margin-bottom:60px;
+}
+.panel{
+  width: 25%;
+  float: left;
+
+  padding-right: 15px;
+  box-sizing: border-box;
+}
+.panel-head{
+  /*width: 100%;*/
+}
+.panel-head img{
+  width: 100%;
+  border-radius: 10%;
+}
+.panel-body{
+  height: 50px;
+}
+
+/*購入した商品*/
+.sale-mypage{
+  width: 80%;
+  /*消す*/
+  height: 200px;
+  border:1px solid white;
+
+  margin-left:auto;
+  margin-right:auto;
+  margin-bottom:60px;
+}
+/* メッセージ一覧*/
+.msg-mypage{
+  width: 80%;
+  /*消す*/
+  height: 200px;
+  /*border:1px solid white;*/
+
+  margin-left:auto;
+  margin-right:auto;
+  margin-bottom:60px;
+}
+
+

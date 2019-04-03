@@ -37,13 +37,15 @@ if(!empty($_POST)){
   //２次元配列で、$_FILESの中のキーnameがあれば確実に入っているとわかる
   $pic1 = (!empty($_FILES['pic1']['name']))? uploadImg($_FILES['pic1'], 'pic1') : '';
   $pic1 = (empty($pic1) && !empty($dbFormData['pic1']))? $dbFormData['pic1'] : $pic1;
-  debug('画像チェックです:'.print_r($pic1, true));
+  debug('画像チェックですpic1:'.print_r($pic1, true));
 
   $pic2 = (!empty($_FILES['pic2']['name']))? uploadImg($_FILES['pic2'], 'pic2') : '';
-  $pic1 = (empty($pic1) && !empty($dbFormData['pic2']))? $dbFormData['pic2'] : $pic1;
+  $pic2 = (empty($pic2) && !empty($dbFormData['pic2']))? $dbFormData['pic2'] : $pic1;
+  debug('画像チェックですpic2:'.print_r($pic2, true));
 
   $pic3 = (!empty($_FILES['pic3']['name']))? uploadImg($_FILES['pic3'], 'pic3') : '';
   $pic3 = (empty($pic3) && !empty($dbFormData['pic3']))? $dbFormData['pic3'] : $pic3;
+  debug('画像チェックですpic3:'.print_r($pic3, true));
 
 
 
@@ -185,15 +187,15 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>　画面表示処理�
 
                 <label class="area-drop">
                   <input type="hidden" name="MAX_FILE_SIZE" value="">
-                  <input type="file" class="input-file" name="" value="">
-                  <img src="" style="<?php if(empty($dbFormData['pic1']))echo 'display:none;' ?>" class="prev-img" alt="">
+                  <input type="file" class="input-file" name="pic2" value="">
+                  <img src="" style="<?php if(empty($dbFormData['pic2']))echo 'display:none;' ?>" class="prev-img" alt="">
                 </label>
 
 
                 <label class="area-drop">
                   <input type="hidden" name="MAX_FILE_SIZE" value="">
-                  <input type="file" class="input-file" name="" value="">
-                  <img src="" style="<?php if(empty($dbFormData['pic1']))echo 'display:none;' ?>" class="prev-img" alt="">
+                  <input type="file" class="input-file" name="pic3" value="">
+                  <img src="" style="<?php if(empty($dbFormData['pic3']))echo 'display:none;' ?>" class="prev-img" alt="">
                 </label>
               </div>
 
