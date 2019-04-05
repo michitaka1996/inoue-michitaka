@@ -17,6 +17,11 @@ body{
   color: white;
 } 
 
+.page-mypage .title h1{
+  color: #b6a489;
+  text-align: center;
+  margin-bottom: 70px;
+}
 /*========================================
 リンク
 ========================================*/
@@ -155,19 +160,35 @@ nav a{
   overflow: hidden;
 
   margin: 0;
-} */
+m */
+.form-title{
+  font-size: 30px;
+  text-align: center;
 
+  margin: 20px 0;
+}
 
 /*========================================
 input、テキストエリア、ボタン,セレクトボックス
 ========================================*/
+label{
+  width: 100%;
+  height: 100%;
+
+  margin-bottom: 30px;
+}
+.js-form-group{
+  margin: 20px 0;
+}
 input[type="text"], input[type="number"]{
   width: 100%;
   height: 45px;
   font-size: 16px;
-  margin-bottom: 20px;
-}
+  -webkit-border-radius: 15px;
+  font-family: FontAwesome;
 
+  /* margin-top: 20px; */
+}
 input[type="submit"]{
   background: #333333;
   color: white;
@@ -182,6 +203,7 @@ input[type="submit"]:hover{
 textarea{
   width: 100%;
   height: 120px;
+  -webkit-border-radius: 15px;
   font-size: 20px;
 }
 .btn-container{
@@ -205,11 +227,38 @@ textarea{
 select{
   margin-right: 100%;
   height: 40px;
-  margin-bottom: 20px;
+  -webkit-border-radius: 15px;
 }
 select .age-box{
   width: 30%;
 }
+/*========================================
+js jQueryでのバリデーションチェック
+========================================*/
+/*通常時 */
+.js-help-block{
+  font-size: 14px;
+  margin: 0;
+}
+/* エラー時 */
+.has-error .js-help-block, .has-error label{
+  color: red;
+}
+/* サクセス時 */
+.has-success .js-help-block, .has-success label{
+  color: #b6a489;
+}
+/*========================================
+PHP サーバ側でのバリデーションチェック
+========================================*/
+.-area{
+  color: red;
+
+  margin-bottom: 20px;
+}
+
+
+
 /*========================================
 １カラムか2カラムによって,サイドバー
 ========================================*/
@@ -265,7 +314,7 @@ select .age-box{
 
   margin-left: auto;
   margin-right: auto;
-  margin-top: 30px;
+  margin-top: 60px;
   margin-bottom: 30px;
 }
 .area-drop{
@@ -274,11 +323,13 @@ select .age-box{
   height: 100%;
   position: relative;
   display: block;
+  border-radius: 50%;
 }
 .input-file{
   opacity: 0;
   width: 100%;
   height: 100%;
+  border-radius: 50%;
 }
 /* img　画像本体 */
 .prev-img{
@@ -287,6 +338,7 @@ select .age-box{
   position: absolute;
   top: 0;
   left: 0;
+  border-radius: 50%;
 }
 /*　記事投稿の方の画像 */
 .page-registProduct .imgDrop-container{

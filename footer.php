@@ -2,7 +2,7 @@
   Copyright <a href="Audustry.html">Keijiban</a>.All Rights Reserved.
 </footer>
 <script src="js/vendor/jquery-2.2.2.min.js"></script>
-<script type="text/javascript" src="main.js">//バリデーション</script>
+
 
 
 <script>
@@ -25,8 +25,20 @@
     setTimeout(function(){ $jsShowMsg.slideToggle('slow');}, 5000);
   }
 
+//================================
+  // テキストカウント　商品登録ページ
   //================================
-  // 画像ライブプレビュー
+var $countUp = $('#js-count-text'),
+    $countVew = $('#js-count-view');
+  $countUp.on('keyup', function(e){
+    $countVew.html($(this).val().length);
+  });
+
+
+
+
+  //================================
+  // 画像ライブプレビュー　商品登録ページ
   //================================
   var $dropArea = $('.area-drop');
   var $fileInput = $('.input-file');
@@ -54,7 +66,7 @@
     fileReader.readAsDataURL(file);
   });
   //================================
-  // 商品詳細での画像切り替え
+  // 商品詳細での画像切り替え　商品詳細ページ
   //================================
   var $switchImgSubs = $('.js-switch-img-sub'),
       $switchImgMain = $('#js-switch-img-main');
@@ -65,7 +77,7 @@
 
 
 //================================
-  //Ajax
+  //Ajax処理　商品詳細ページ　お気に入り
   //================================
 var $like,
     likeProductId;
@@ -91,7 +103,91 @@ if(likeProductId !== undefined && likeProductId !== null){
   });
 }
 
- 
+
+
+
+
+
+//================================
+  //　ユーザー側でのバリデーションチェック
+  //================================
+  const MSG01 = '30文字以内で入力してください';
+  const MSG02 = '住所は50文字以内で入力してください'; //住所
+  const MSG03 = '入力必須です';
+  const MSG04 = 'Emailの形式で入力してください';
+  const MGS05 = '半角英数字で入力してください';
+  const MSG06 = '本文の文字数は32000字までです'; //投稿本文
+  const MSG07 = 'パスワードは20文字以内で入力してください';
+  const MSG08 = '商品のコメントは500文字以内で入力してください';
+  
+  ///////////
+  //ユーザー登録,ログインフォームページ
+  ///////////
+
+  //email
+  $(".js-valid-email").keyup(function(){
+    var form_g = $(this).closest('.js-form-group');
+    if($(this).val().length > 50 || !$(this).val().match(/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/)){
+      form_g.removeClass('has-success').addClass('has-error');
+      form_g.find('.js-help-block').text(MSG04);
+    }else if($(this).val().length == 0){
+      form_g.removeClass('has-success').addClass('has-error');
+      form_g.find('.js-help-block').text(MSG03);
+    }else{
+      form_g.removeClass('has-error').addClass('has-success');
+      form_g.find('.js-help-block').text('');
+    }
+  });
+
+  //pass
+  $(".js-valid-pass").keyup(function(){
+     var form_g = $(this).closest('.js-form-group');
+     if($(this).val().length === 0){
+       form_g.removeClass('has-success').addClass('has-error');
+       form_g.find('.ja-help-block').text(MSG03);
+     }else if($(this).val().length >= 21){
+      form_g.removeClass('has-success').addClass('has-error');
+      form_g.find('.js-help-block').text(MSG07); 
+     }
+  });
+
+  
+ ///////////
+ //商品登録ページ
+ ///////////
+  //タイトル
+$(".js-valid-name").keyup(function(){
+  var form_g = $(this).closest('.js-form-group');
+  if($(this).val().length >= 31){
+    form_g.removeClass('has-success').addClass('has-error');
+    form_g.find('.js-help-block').text(MSG01);
+  }
+});
+
+//商品のコメント欄
+$(".js-valid-comment").keyup(function(){
+  var form_g = $(this).closest('.js-form-group');
+  if($(this).val().length >= 10 ){
+    form_g.removeClass('has-success').addClass('has-error');
+    form_g.find('.js-help-block').text(MSG08);
+  }
+});
+
+
+ ///////////
+ //アカウント編集ページ
+ ///////////
+ //住所
+$('.js-valid-addr').keyup(function(){
+  var form_g = $(this).closest('.js-form-group');
+  if($(this).val().length >= 50){
+    form_g.removeClass('has-success').addClass('has-error');
+    form_g.find('.js-valid-name').text(MSG02);
+  }
+});
+
+//電話
+$('.js-')
 
 
 

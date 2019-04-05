@@ -98,6 +98,7 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理終
             <div id="main">
               <div class="form-container">
                 <form class="form" action="" method="post">
+                  <div class="form-title">パスワードの変更</div>
                   <div class="msg-area">
                     <?php if(!empty($err_msg['common'])){echo $err_msg['common'];} ?>
                   </div>
@@ -110,7 +111,7 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理終
                   </div>
 
                   <label>新しいパスワード
-                    <input type="text" name="pass_new" value="">
+                    <input type="text" name="pass_new" value="" placeholder="20文字以内で入力してください">
                   </label>
                   <div class="msg-area">
                     <?php if(!empty($err_msg['pass_new'])){echo $err_msg['pass_new'];} ?>

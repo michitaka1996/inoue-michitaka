@@ -91,19 +91,25 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>　画面表�
          <div class="form-container">
 
            <form class="form" action="" method="post">
+             <div class="form-title">Member Login</div>
              <div class="msg-area">
                <?php if(!empty($err_msg['common'])){ echo $err_msg['common'];} ?>
              </div>
-             <label>Email
-               <input type="text" name="email" value="">
-             </label>
+
+             <div class="js-form-group">
+               <label>Email:<span class="js-help-block"></span>
+                <input class="js-valid-email" type="text" name="email" placeholder="">
+               </label>
+             </div>
              <div class="msg-area">
                <?php if(!empty($err_msg['email'])){ echo $err_msg['email'];} ?>
              </div>
-
-             <label>Password
-               <input type="text" name="pass" value="">
-             </label>
+            
+             <div class="js-form-group">
+               <label>Password:<span class="js-help-block"></span>
+                <input class="js-valid-pass" type="text" name="pass" value="">
+               </label>
+             </div>
              <div class="msg-area">
                <?php if(!empty($err_msg['pass'])){ echo $err_msg['pass'];} ?>
              </div>

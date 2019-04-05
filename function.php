@@ -484,22 +484,24 @@ function showImg($img){
     return $img;
   }
 }
-// 基本のパラメータである?$key=　を生成 getパラメータの生成ができれば&以降はif文で追加することができる
-function getParam($key){
-  debug('GETパラメータを付与します');
 
-  //in_arrayで引数と同じ$Keyなければ付与
-  $str = '?';
-  //get送信を$keyと$valに分解したいのでforeachを使う
-  foreach($_GET as $key => $val):
-    $param = $str.$key.'='.$val;
-  endforeach;
 
-  return $param;
-
-  if(!empty($param)){
+//GET送信を用いて、パラメータを生成
+//主な目的はキーの削除
+//取り消すのか付け加えるのか
+function getParam($paramKey){
+  
+  if(!empty($_GET)){
+    $str = '?'; //これを起点にして付け加えるのか削除するのが　?は絶対必要   
+    foreach ($_GET as $key => $value) { //GET送信したやつ
+      if(!in_array($key, $paramKey, true)){ //あるだけループ
+        $str .= $key.'='.$val.'&';
+      } 
+    }
+    $str = mbsubstr(0, -1, "UTF-8");
+    return $str;   
   }
-}
+} 
 
 
 
@@ -599,6 +601,28 @@ function isLogin(){
   }
 }
 
+
+//マイページで
+function getMsg($u_id){
+  debug('自分あてのメッセージを取得します');
+  try{
+    $dbh = dbConnect();
+    $sql = 'SELECT * FROM message WHERE to_user=:u_id';
+    $data = array(':u_id'=>$u_id);
+    $stmt = queryPost($dbh, $sql, $data);
+    $result = $stmt->fetchAll();
+
+    if(!empty($result)){
+      debug('ok');
+      return $result;
+    }else{
+      debug('miss');
+      return 0;
+    }
+  }catch(Exception $e){
+    error_log('エラー発生:'.$e->getMessage());
+  }
+}
 
 
 

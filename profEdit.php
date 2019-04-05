@@ -111,31 +111,46 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理
 
                <!-- フォームの入力保持はdbがpostかどうか -->
                <form class="form" action="" method="post" enctype="multipart/form-data">
-                 <label>名前:<span class="help-block"></sapn>
-                   <input type="text" name="name" value="<?php if(!empty($dbFormData['username'])){echo $dbFormData['username'];} ?>">
-                 </label>
+                 <div class="form-title">アカウント編集</div>
+
+                 <div class="js-form-group">
+                  <label>名前:<span class="help-block"></span>
+                   <input class="js-valid-username" type="text" name="name" value="<?php if(!empty($dbFormData['username'])){echo $dbFormData['username'];} ?>">
+                  </label>
+                 </div>
                  <div class="msg-area">
                    <?php if(!empty($err_msg['name'])){echo $err_msg['name'];} ?>
                  </div>
+                
+                <div class="js-form-group">
+                 <label>住所:<span class="help-block"></span>
+                   <input class="js-valid-addr" type="text" name="addr" value="<?php if(!empty($dbFormData['addr'])){echo $dbFormData['addr'];} ?>">
+                 </label> 
+                </div>
+                  
 
-                 <label>住所
-                   <input type="text" name="addr" value="<?php if(!empty($dbFormData['addr'])){echo $dbFormData['addr'];} ?>">
+                <div class="js-form-group">
+                 <label>年齢:
+                  <input type="number" style="width:150px; margin-right:100%;" name="age" value="<?php echo $dbFormData['age']; ?>">
                  </label>
-
-                 <label>年齢
-                   <input type="number" style="width:150px; margin-right:100%;" name="age" value="<?php echo $dbFormData['age']; ?>">
-                 </label>
-
-                 <label>電話
+                </div>
+                 
+                <div class="js-form-group">
+                  <label>電話:<span class="help-block"></span>
                    <input type="text" name="tel" value="<?php if(!empty($dbFormData['tel'])){echo $dbFormData['tel'];} ?>">
                  </label>
+                </div>
+                 
                  <div class="msg-area">
                    <?php if(!empty($err_msg['tel'])){echo $err_msg['tel'];} ?>
                  </div>
-
-                 <label>Email
+                
+                <div class="js-form-group">
+                   <label>Email:<span class="help-block"></span>
                    <input type="text" name="email" value="<?php if(!empty($dbFormData['email'])){echo $dbFormData['email'];} ?>">
                  </label>
+                </div>
+                
                  <!-- プロフ画像 -->
                  <div class="imgDrop-container">
                    <label class="area-drop">

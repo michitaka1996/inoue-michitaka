@@ -131,19 +131,28 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>　画面表示処理�
          ?>
         <div id="main">
           <div class="form-container">
+            
             <form class="form" action="" method="post" enctype="multipart/form-data">
+              <div class="form-title">出品する</div>
               <div class="msg-area">
                 <?php if(!empty($err_msg['common'])){ echo $err_msg['common'];} ?>
               </div>
 
-              <label>タイトル:必須
-                <input type="text" name="name" value="<?php echo getFormData('name'); ?>" >
-              </label>
+              <div class="js-form-group">
+               <label>タイトル:必須 <span class="js-help-block"></span>
+                <input class="js-valid-name" type="text" name="name" value="<?php echo getFormData('name'); ?>" >
+               </label>
+              </div>
+              
               <div class="msg-area">
                 <?php if(!empty($err_msg['name'])){echo $err_msg['name'];} ?>
               </div>
 
-              <label>カテゴリ:必須
+              
+
+              
+             <div class="js-form-group">
+              <label style="margin-top:10px;">カテゴリ:必須
                 <!-- カテゴリは検証ツールで選択中のカテゴリは'selected'と文字列を表示させる(postの時) -->
                 <!-- selectのoptionタグには$dbCategoryDataの中のnameを全部ループさせる -->
                 <!-- $keyはたくさんあるカテゴリデータ,$valではその一つのレコードのデータ -->
@@ -156,20 +165,26 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>　画面表示処理�
                   <?php } ?>
                 </select>
               </label>
+             </div>
               <div class="msg-area">
                 <?php if(!empty($err_msg['category_id'])){echo $err_msg['category_id'];} ?>
               </div>
 
-              <label>金額:必須
+             <div class="js-form-group">
+              <label>金額:必須 <span class="js-help-block"></span>
                 <input type="text" name="price" value="">
               </label>
+             </div>
               <div class="msg-area">
                 <?php if(!empty($err_msg['price'])){echo $err_msg['price'];} ?>
               </div>
 
-              <label>コメント
-                <textarea name="comment" rows="" cols=""></textarea>
+             <div class="js-form-group">
+              <label>コメント <span class="js-help-block"></span>
+                <textarea class="js-valid-comment" id="js-count-text" name="comment" rows="" cols=""></textarea>
+                <div class="text-length"><span id="js-count-view">0</span>/500</div>
               </label>
+             </div>
               <div class="msg-area">
                 <?php if(!empty($err_msg['comment'])){echo $err_msg['comment'];} ?>
               </div>

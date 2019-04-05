@@ -6,6 +6,9 @@ debug('『『『『『『『『『『『『『『『『『『『『『『『『�
 debugLogStart();
 //ログイン認証は取らない
 
+//GETに渡したものを$key $valueに分けることができる
+debug('変数GET:'.print_r($_GET, true));
+
 //getパラメータがあるかチェック プトダクトid
 //これを元に、結合した商品詳細ページを表示
 $p_id = (!empty($_GET['p_id']))? $_GET['p_id'] : '';
@@ -113,7 +116,7 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理終
           
         </section>
 
-        <a class="product-back" href="index.php"><<商品一覧に戻る</a>
+        <a class="product-back" href="index.php "> &lt;商品一覧に戻る</a>
   
 
 

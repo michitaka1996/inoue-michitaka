@@ -76,6 +76,25 @@ debug('ユーザーがお気に入りした商品たち:'.print_r($likeProduct, 
 //             [update_date] => 2019-03-29 22:00:55
 //         )
 
+$msgToMe = getMsg($u_id);
+debug('自分宛のメッセージ:'.print_r($msgToMe, true));
+
+// [0] => Array
+//         (
+//             [id] => 10
+//             [board_id] => 102
+//             [send_date] => 2019-04-03 08:32:47
+//             [to_user] => 7
+//             [from_user] => 8
+//             [msg] => geqgrqqq
+//             [delete_flg] => 0
+//             [create_date] => 2019-04-03 08:32:47
+//             [update_date] => 
+//         )
+
+$sendUserName = getUser($msgToMe[0]['to_user']);
+debug('送信者の名前:'.print_r($sendUserName['username'], true));
+
 
 
 debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理終了');
@@ -111,11 +130,14 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理�
           <section id="main" style="float: left;">
             <div class="mypage-main-wrap">
               
+              <div class="title">
+                <h1>お気に入りした商品</h1>
+              </div>
               <div class="like-mypage">
                 
                <?php $i = 0; ?>
                 <?php foreach ($likeProduct as $key => $value) : ?>
-                
+                  
                    <a href="productDetail.php">
                     <div class="panel">
                       <div class="panel-head">
@@ -127,22 +149,38 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理�
                       </div>
                     </div>                       
                    </a>  
-                   <?php $likeSort[$key] = $value['update_date_like']; $key = array(); ?>
+                   
                    <?php $i++; ?> 
 
                  <?php if($i == 4) { break; } ?>                         
                 <?php endforeach ?>      
-                <?php array_multisort($likeSort, SORT_ASC, $likeProduct); ?>
+                
                 
               </div>
              
-
+              <div class="title">
+                <h1>新着連絡</h1>
+              </div>
               <div class="msg-mypage">
                 <table>
                   <thead>
-                    <tr><th>最新送信日時</th><th>取引相手</th><th>メッセージ</th></tr>
+                    <tr><th>送信日時</th><th>取引相手</th><th>メッセージ</th></tr>
                   </thead>
+                  <tbody>
+                    <?php if(!empty($msgToMe)){ ?>
+                    <?php $i=0; ?>
+                    <?php foreach ($msgToMe as $key): ?>
+                      <tr><td><?php echo $msgToMe[0]['send_date']; ?></td><td><?php echo $sendUserName['username'];  ?></td><td><?php echo $msgToMe[0]['msg']; ?></td></tr>
+                    <?php $i++; ?>
+                    <?php if($i == 4){ break; } ?>
+                    <?php endforeach ?>
+                    <?php } ?>
+                  </tbody>
                 </table>
+              </div>
+
+              <div class="title">
+                <h1>出品している商品</h1>
               </div>
               <div class="sale-mypage">
                 
