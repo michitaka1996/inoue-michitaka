@@ -15,6 +15,21 @@ require('auth.php');
 $dbFormData = getUser($_SESSION['user_id']);
 debug('取得したユーザーデータ：'.print_r($dbFormData, true));
 
+// [id] => 8
+//     [username] => えええ
+//     [email] => michirug11@i.softbank.jp
+//     [tel] => 09030593821
+//     [addr] => 大阪府札幌市目黒区西日暮里4丁目43
+//     [age] => 6
+//     [password] => $2y$10$iNHmYS7863S/hc8kfw4uEutJVmo1OxJlldyr34vQjhPD55fpih.3u
+//     [login_time] => 2019-03-29 12:28:45
+//     [pic] => uploads/ee99518633a62fcd56e4f49536aa2558cf8fb7cd.jpeg
+//     [delete_flg] => 0
+//     [create_date] => 2019-03-29 12:28:45
+//     [update_date] => 2019-03-29 21:28:45
+// )
+
+
 if(!empty($_POST)){
   debug('POST情報があります');
   debug('POSTの中身：'.print_r($_POST, true));
@@ -34,17 +49,21 @@ if(!empty($_POST)){
   if(empty($dbFormData)){
     //アカウント登録のバリデーションチェック
     validRequired($name, 'name');
-    validMaxLen($name, 'name', 255);
-    validRequired($tel, 'tel');
-    validTel($tel, 'tel');
-    validRequired($email, 'email');
-    validEmailDup($email);
-
+    validName($name, 'name');
+    if(empty($err_msg)){
+      validAddr($addr, 'addr');
+      validRequired($tel, 'tel');
+      validTel($tel, 'tel');
+    }
+    if(empty($err_msg)){
+      validRequired($email, 'email');
+      validEmailDup($email);
+    }
   }else{
     //アカウント編集用のバリデーションチェック
     if($dbFormData['username'] !== $name){
       validRequired($name, 'name');
-      validMaxLen($name, 'name', 255);
+      validName($name, 'name');
     }
     if($dbFormData['tel'] !== $tel){
       validRequired($tel, 'tel');
@@ -115,23 +134,25 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理
 
                  <div class="js-form-group">
                   <label>名前:<span class="help-block"></span>
-                   <input class="js-valid-username" type="text" name="name" value="<?php if(!empty($dbFormData['username'])){echo $dbFormData['username'];} ?>">
+                   <input class="js-valid-username" type="text" name="name" value="<?php echo getFormData('username', true); ?>">
                   </label>
-                 </div>
-                 <div class="msg-area">
+                  <div class="msg-area">
                    <?php if(!empty($err_msg['name'])){echo $err_msg['name'];} ?>
+                  </div>
                  </div>
+                 
                 
                 <div class="js-form-group">
                  <label>住所:<span class="help-block"></span>
-                   <input class="js-valid-addr" type="text" name="addr" value="<?php if(!empty($dbFormData['addr'])){echo $dbFormData['addr'];} ?>">
-                 </label> 
+                   <input class="js-valid-addr" type="text" name="addr" value="<?php echo getFormData('addr', true); ?>">
+                 </label>
+                 <div class="msg-area"><?php if(!empty($err_msg['addr'])) echo $err_msg['addr']; ?></div>
                 </div>
                   
 
                 <div class="js-form-group">
                  <label>年齢:
-                  <input type="number" style="width:150px; margin-right:100%;" name="age" value="<?php echo $dbFormData['age']; ?>">
+                  <input type="number" style="width:150px; margin-right:100%;" name="age" value="<?php echo getFormData('age', true); ?>">
                  </label>
                 </div>
                  
@@ -139,15 +160,16 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理
                   <label>電話:<span class="help-block"></span>
                    <input type="text" name="tel" value="<?php if(!empty($dbFormData['tel'])){echo $dbFormData['tel'];} ?>">
                  </label>
-                </div>
-                 
                  <div class="msg-area">
                    <?php if(!empty($err_msg['tel'])){echo $err_msg['tel'];} ?>
                  </div>
+                </div>
+                 
+                 
                 
                 <div class="js-form-group">
                    <label>Email:<span class="help-block"></span>
-                   <input type="text" name="email" value="<?php if(!empty($dbFormData['email'])){echo $dbFormData['email'];} ?>">
+                   <input type="text" name="email" value="<?php echo getFormData('email', true); ?>">
                  </label>
                 </div>
                 
@@ -156,7 +178,7 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理
                    <label class="area-drop">
                      <input type="hidden" name="MAX_FILE_SIZE" value="3145728">
                      <input type="file" class="input-file" name="pic" value="" style="height:450px;">
-                     <img src="<?php echo $dbFormData['pic']; ?>" class="prev-img" style="<?php if(empty($dbFormData['pic'])) echo "display:none;" ?>max-height:450px;" alt="">
+                     <img src="<?php echo $dbFormData['pic']; ?>" class="prev-img" style="<?php if(empty(getFormData('pic'))) echo "display:none;" ?>max-height:450px;" alt="">
                    </label>
                  </div>
                  <div class="btn-container">

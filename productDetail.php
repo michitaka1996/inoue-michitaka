@@ -80,7 +80,7 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理終
         <section class="productDetail-wrap" >
           <div class="productDetail-title">
             <a href="index.php">SHOP</a>  >  <a href="">Products</a><br>
-            <h2><?php echo $viewData['name']; ?></h2>
+            <h2><?php echo sanitize($viewData['name']); ?></h2>
             <div class="product-icon">
             <i class="fa fa-heart fa-2x icon-like js-click-like <?php if(isLike($_SESSION['user_id'], $viewData['id'])){ echo 'active'; } ?>" area-hidden="true" data-productid="<?php echo sanitize($viewData['id']); ?>" style="float: right;" ></i>
             </div>
@@ -89,13 +89,13 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理終
 
           <div id="main" >
             <div class="img-main">
-             <img id="js-switch-img-main" src="<?php echo $viewData['pic1']; ?>" alt="">
+             <img id="js-switch-img-main" src="<?php echo sanitize($viewData['pic1']); ?>" alt="">
             </div>
 
             <div class="img-sub">
-              <img class="js-switch-img-sub" src="<?php echo $viewData['pic1']; ?>" alt="">
-              <img class="js-switch-img-sub" src="<?php echo showImg($viewData['pic2']); ?>" alt="">
-              <img class="js-switch-img-sub" src="<?php echo showImg($viewData['pic3']); ?>" alt="">
+              <img class="js-switch-img-sub" src="<?php echo showImg(sanitize($viewData['pic1'])); ?>" alt="">
+              <img class="js-switch-img-sub" src="<?php echo showImg(sanitize($viewData['pic2'])); ?>" alt="">
+              <img class="js-switch-img-sub" src="<?php echo showImg(sanitize($viewData['pic3'])); ?>" alt="">
             </div>
 
 
@@ -103,8 +103,8 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理終
 
           <div class="product-detail" >
            
-              <h2>¥<?php echo $viewData['price']; ?></h2><br>
-              <p class="product-comment"><?php echo $viewData['comment'] ?></p>
+              <h2>¥<?php echo sanitize($viewData['price']); ?></h2><br>
+              <p class="product-comment"><?php echo sanitize($viewData['comment']); ?></p>
 
           </div>
 

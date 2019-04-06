@@ -167,9 +167,12 @@ $(".js-valid-name").keyup(function(){
 //商品のコメント欄
 $(".js-valid-comment").keyup(function(){
   var form_g = $(this).closest('.js-form-group');
-  if($(this).val().length >= 10 ){
+  if($(this).val().length >= 501){
     form_g.removeClass('has-success').addClass('has-error');
     form_g.find('.js-help-block').text(MSG08);
+  }else{
+    form_g.removeClass('has-error').addClass('has-success');
+    form_g.find('.js-help-block').text('');
   }
 });
 

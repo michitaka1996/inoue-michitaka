@@ -16,7 +16,7 @@ $edit_flg = (!empty($_GET['p_id']))? $_GET['p_id'] : '';
 //フォームに表示させるDBデータを格納
 //商品データ u_idを元に
 $dbFormData = getProduct($_SESSION['user_id']);
-// debug('取得してきた商品データ:'.print_r($dbFormData,true));
+debug('取得してきた商品データ:'.print_r($dbFormData,true));
 
 //DBデータから取得したカテゴリデータ
 $dbCategoryData = getCategory();
@@ -140,17 +140,18 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>　画面表示処理�
 
               <div class="js-form-group">
                <label>タイトル:必須 <span class="js-help-block"></span>
-                <input class="js-valid-name" type="text" name="name" value="<?php echo getFormData('name'); ?>" >
+                <input class="js-valid-name" type="text" name="name" value="" >
                </label>
-              </div>
-              
-              <div class="msg-area">
+               <div class="msg-area">
                 <?php if(!empty($err_msg['name'])){echo $err_msg['name'];} ?>
+               </div>
               </div>
+              
+            
 
               
 
-              
+      
              <div class="js-form-group">
               <label style="margin-top:10px;">カテゴリ:必須
                 <!-- カテゴリは検証ツールで選択中のカテゴリは'selected'と文字列を表示させる(postの時) -->
@@ -165,29 +166,32 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>　画面表示処理�
                   <?php } ?>
                 </select>
               </label>
-             </div>
               <div class="msg-area">
                 <?php if(!empty($err_msg['category_id'])){echo $err_msg['category_id'];} ?>
               </div>
+             </div>
+              
 
              <div class="js-form-group">
               <label>金額:必須 <span class="js-help-block"></span>
                 <input type="text" name="price" value="">
               </label>
-             </div>
               <div class="msg-area">
                 <?php if(!empty($err_msg['price'])){echo $err_msg['price'];} ?>
               </div>
+             </div>
+              
 
              <div class="js-form-group">
               <label>コメント <span class="js-help-block"></span>
                 <textarea class="js-valid-comment" id="js-count-text" name="comment" rows="" cols=""></textarea>
-                <div class="text-length"><span id="js-count-view">0</span>/500</div>
               </label>
-             </div>
-              <div class="msg-area">
+              <div class="text-length"><span id="js-count-view">0</span>/500</div>
+               <div class="msg-area">
                 <?php if(!empty($err_msg['comment'])){echo $err_msg['comment'];} ?>
               </div>
+             </div>
+             
 
               <!-- 画像たち -->
               <div class="imgDrop-container">
