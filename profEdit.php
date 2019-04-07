@@ -12,7 +12,7 @@ require('auth.php');
 
 
 //ユーザーIDを元に,ユーザー情報をとってくる
-$dbFormData = getUser($_SESSION['user_id']);
+$dbFormData = (!empty($_SESSION['user_id'])) ? getUser($_SESSION['user_id']) : '';
 debug('取得したユーザーデータ：'.print_r($dbFormData, true));
 
 // [id] => 8

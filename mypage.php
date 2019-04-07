@@ -15,7 +15,7 @@ debug('スライドを表示させます');
 $_SESSION['msg_success'] = SUC01;
 
 
-$u_id = $_SESSION['user_id'];
+$u_id = (!empty($_SESSION['user_id']))? $_SESSION['user_id'] : '';
 
 
 $myData = getUser($u_id);

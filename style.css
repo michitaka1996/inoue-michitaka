@@ -443,6 +443,8 @@ td{
 簡易ログイン　オブジェクト指向 login-btn.php
 ========================================*/
 .object-login-wrap{
+  overflow: hidden;
+  /* float: left; */
   width: 800px;
   /* height: 600px; */
   /* border: 2px dotted #b6a489; */
@@ -454,10 +456,10 @@ td{
 #start-wrap{
   width: 50%;
   height: 30%;
-  border: 2px dotted #b6a489;
+  /* border: 2px dotted #b6a489; */
 
   padding: 30px;
-  margin: auto;
+  margin-left: 300px;
   /* margin-top: 150px;  */
   /* margin-left: auto;
   margin-right: auto;
@@ -470,9 +472,63 @@ td{
 #start-select a{
   color: white;
 }
+#game-wrap{
+ float: left;
+ width: 100%;
+ /* 消す */
+ /* height: 700px; */
+ /* border: 2px dotted #b6a489;  */
+}
+.game-display{
+  position: relative;
+  overflow: hidden;
+  background: #9966FF;
+  width: 80%;
+  /* 消す */
+  min-height: 500px;
+  /* border: 2px dotted #b6a489;  */
 
+  padding: 20px;
+  margin: auto;
+  margin-top: 40px;
+  
+}
+.game-select{
+  width: 60%;
+  height: 300px;
+  /* border: 2px dotted #b6a489;  */
+  
+  margin: auto;
+}
+.monster-img{
+  width: 250px;
+  height: 200px;
+  float: right;
+}
+.human-img{
+  position: absolute;
+  top: 280px;
+  left: 50px;
+  width:250px;
+  height: 200px;
+}
+#monster-name-container{
+  width: 300px;
+  /* border: 1px dotted #b6a489;  */
+  
+  margin-top: 10px;
+}
+.monster-title{
+  
+}
+.history-container{
+  
+}
+.game-history{
+ float: left; 
 
-
+ margin-top: 40px;
+}
 
 
 

@@ -15,7 +15,7 @@ $edit_flg = (!empty($_GET['p_id']))? $_GET['p_id'] : '';
 
 //フォームに表示させるDBデータを格納
 //商品データ u_idを元に
-$dbFormData = getProduct($_SESSION['user_id']);
+$dbFormData = (!empty($_SESSION['user_id'])) ? getProduct($_SESSION['user_id']) : ''; 
 debug('取得してきた商品データ:'.print_r($dbFormData,true));
 
 //DBデータから取得したカテゴリデータ

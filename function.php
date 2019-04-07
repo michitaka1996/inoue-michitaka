@@ -581,7 +581,7 @@ function getParam($paramKey)
 //GET送信の$keyがgetParam()の引数じゃなかった時
   if (!empty($_GET)) {
     $str = '?'; //これを起点にして付け加えるのか削除するのが　?は絶対必要   
-    foreach ($_GET as $key => $value) { //GET送信したやつ
+    foreach ($_GET as $key => $val) { //GET送信したやつ
       if (!in_array($key, $paramKey, true)) { // 取りぞのきたいものとキーがマッチしていなかった時あるだけループ
         $str .= $key . '=' . $val . '&';
       }

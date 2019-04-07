@@ -14,7 +14,7 @@ require('auth.php');
 
 //古いパスワードがDBのものと合っているかどうかのためにユーザー情報を取得
 $dbFormData = '';
-$dbFormData = getUser($_SESSION['user_id']);
+$dbFormData = (!empty($_SESSION['user_id']))? getUser($_SESSION['user_id']) : '';
 debug('取得したユーザ情報：'.print_r($dbFormData, true));
 
 //POSTがあったら

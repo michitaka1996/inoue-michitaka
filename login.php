@@ -117,7 +117,7 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>　画面表�
              <label>
                次回ログインを省略する
                <input type="checkbox" name="pass_save"><br>
-               <a href="login-btn.php">簡単なログインはこちら</a>
+               <a href="login-btn.php">ゲームで仮ログインをする</a>
              </label>
 
              <div class="btn-container">
