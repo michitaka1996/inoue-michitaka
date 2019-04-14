@@ -318,7 +318,7 @@ function getFormData($key, $flg = true){
       }
     }
   } else { //dbなし
-    debug('DBには保存されていません');
+    debug('DBには保存されていません(getFormData)');
     if(!empty($err_msg[$key]) && isset($method[$key])) {
       debug('DB保存なしエラーあり$methodあり');
       return sanitize($method[$key]);

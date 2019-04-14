@@ -13,48 +13,171 @@ debug('受け渡した掲示板情報:'.print_r($m_id, true));
 //BDからデータ取得
 //　掲示板とメッセージ, 商品情報,出品者情報 購入社情報, 購入者の掲示板の視点、出品者の掲示板の視点 、両者のプロフ画像
 // boardとmessageテーブルが必要である
-// 
 $viewData = getMsgsAndBoard($m_id); //掲示板とメッセージ
 debug('取得した掲示板とメッセージ情報:'.print_r($viewData, true));
-
 // debug('出品者のID:'.print_r($viewData[0]['sale_user'], true));
+//ビューデータ
 
-$saleUserId = $viewData[0]['sale_user'];
-debug('出品者のID:'.print_r($saleUserId, true));
-$buyUserId = $viewData[0]['buy_user'];
-debug('購入者のID:'.print_r($buyUserId, true));
+//   [0] => Array
+//         (
+//             [m_id] => 1
+//             [board_id] => 1
+//             [send_date] => 2019-04-07 11:59:03
+//             [to_user] => 7
+//             [from_user] => 8
+//             [msg] => gewgeggqgqggq    messageボード
 
-//出品者の情報
-$saleUserData = getUser($saleUserId);
-debug('出品者のユーザー情報:'.print_r($saleUserData, true));
+//             [sale_user] => 7
+//             [buy_user] => 8
+//             [product_id] => 50
+//             [create_date] => 2019-04-07 11:58:58
+//         )
 
-if(empty($saleUserData)){
-  debug('エラー:出品者の情報が取得できませんでした');
+//     [1] => Array
+//         (
+//             [m_id] => 2
+//             [board_id] => 1
+//             [send_date] => 2019-04-07 11:59:17
+//             [to_user] => 7
+//             [from_user] => 8
+//             [msg] => gewgeggqgqggq   messageボード
+
+//             [sale_user] => 7
+//             [buy_user] => 8
+//             [product_id] => 50
+//             [create_date] => 2019-04-07 11:58:58
+//         )
+debug('メッセージ情報:'.print_r($viewData[0]['board_id'], true));
+
+
+//どちらが相手のユーザーIDなのか判定
+$dealUserIds[] = $viewData[0]['sale_user'];
+$dealUserIds[] = $viewData[0]['buy_user'];
+//自分のユーザーIDを取り除く
+//ここのdealUserIdsにはどっちのidも入っている
+//自分のセッションIDとマッチしている方のdealUserIdsを削除
+//dealUserIdsを削除しているので自分の$_SESSION['user_id]は削除していないことに注意
+if(($key = array_search($_SESSION['user_id'], $dealUserIds)) !== false){
+  unset($dealUserIds[$key]);
+}
+
+//パートナーのユーザーID
+//残ってる方を取得する
+$partnerUserId = array_shift($dealUserIds);
+debug('取得した相手のユーザーID:'.print_r($partnerUserId, true));
+
+//自分のユーザーID
+$myUserId = $_SESSION['user_id'];
+
+
+
+
+//パートナーの情報
+//自分で自分の商品は買わないとするので、パートナーの情報=出品者という考えかたで良い
+$partnerUserData = getUser($partnerUserId);
+debug('パートナーのユーザー情報:'.print_r($partnerUserData, true));
+    // [id] => 7
+    // [username] => たろうだよ
+    // [email] => unkotaro@gmail.com
+    // [tel] => 09030593820
+    // [addr] => 大阪府大阪市札幌町ハイツ中村494
+    // [age] => 22
+    // [password] => $2y$10$doypJmreYuqA/yTgaHEALOdmppM8fw5xDPYzVtfXX/.iaWKTbtjaC
+    // [login_time] => 2019-03-25 04:15:25
+    // [pic] => uploads/1c9e4613fc11b0b0ecd76f46f6410d164b2ac535.jpeg
+    // [delete_flg] => 0
+    // [create_date] => 2019-03-25 04:15:25
+    // [update_date] => 2019-03-25 13:15:25
+
+
+if(empty($partnerUserData)){
+  debug('エラー:パートナーの情報が取得できませんでした');
   header("Location:mypage.php");
 }
 
-//購入者の情報
-$buyUserData = getUser($buyUserId);
-debug('購入者のユーザー情報:'.print_r($buyUserData, true));
 
-if(empty($buyUserData)){
-  debug('エラー:購入者の情報が取得できませんでした');
+
+
+
+//自分の情報
+$myUserData = getUser($myUserId);
+debug('自分のユーザー情報:'.print_r($myUserData, true));
+
+    // [id] => 8
+    // [username] => えええ
+    // [email] => michirug11@i.softbank.jp
+    // [tel] => 09030593821
+    // [addr] => sssssss
+    // [age] => 6
+    // [password] => $2y$10$iNHmYS7863S/hc8kfw4uEutJVmo1OxJlldyr34vQjhPD55fpih.3u
+    // [login_time] => 2019-03-29 12:28:45
+    // [pic] => uploads/ee99518633a62fcd56e4f49536aa2558cf8fb7cd.jpeg
+    // [delete_flg] => 0
+    // [create_date] => 2019-03-29 12:28:45
+    // [update_date] => 2019-03-29 21:28:45
+
+if(empty($myUserData)){
+  debug('エラー:自分の情報が取得できませんでした');
   header("Location:mypage.php");
 }
 
 
+
+//連絡掲示板に表示させる購入した(された)商品情報
 $msgProductData = getProductOne($viewData[0]['product_id']);
 debug('商品情報:'.print_r($msgProductData, true));
 
 
-if(!empty($_POST['submit'])){
+//連絡掲示板に表示させるその商品の出品者のユーザー情報が必要
+//出品者のID
+$saleUserId = $viewData[0]['sale_user'];
+debug('出品者のID:'.print_r($saleUserId, true));
+
+//出品者情報
+$saleUserData = getUser($saleUserId);
+debug('出品者の情報:'.print_r($saleUserData, true));
+
+// 　  [id] => 7
+//     [username] => たろうだよ
+//     [email] => unkotaro@gmail.com
+//     [tel] => 09030593820
+//     [addr] => 大阪府大阪市札幌町ハイツ中村494
+//     [age] => 22
+//     [password] => $2y$10$doypJmreYuqA/yTgaHEALOdmppM8fw5xDPYzVtfXX/.iaWKTbtjaC
+//     [login_time] => 2019-03-25 04:15:25
+//     [pic] => uploads/1c9e4613fc11b0b0ecd76f46f6410d164b2ac535.jpeg
+//     [delete_flg] => 0
+//     [create_date] => 2019-03-25 04:15:25
+//     [update_date] => 2019-03-25 13:15:25
+
+if(empty($saleUserData)){
+  debug('この商品の出品者の情報が取得できませんでした');
+  header("Location:mypage.php");
+}
+
+
+
+
+
+//バリデーションチェックしてDBに挿入
+//from_userはパートナーのId　とto_userは自分のID　を挿入
+//from_userは誰へ向けたmsgか(パートナーへ)、to_userは誰からのmsgか(自分) を判断する
+//元となる$viewDataは、どっちに誰のidが入っているか明示されていないため、配列操作の関数を使うことで分けなければいけない
+
+
+
+
+if(!empty($_POST)){
   debug('メッセージのpost送信があります');
   debug('POST情報:'.print_r($_POST, true));
 
   $msg = $_POST['msg'];
 
-  validMsgLen($msg, 'msg');
 
+
+  validMsgLen($msg, 'msg');
+   
+  //0も入っているとみなすのでissetにしておくこと
   if(empty($err_msg['msg'])){
     debug('バリデーションokです');
 
@@ -65,7 +188,7 @@ if(!empty($_POST['submit'])){
       $dbh = dbConnect();
       //to_user from_user は送信者、受信者のユーザーid
       $sql = 'INSERT INTO message (board_id, send_date, to_user, from_user, msg, create_date) VALUES(:board_id, :send_date, :to_user, :from_user, :msg, :create_date)';
-      $data = array(':board_id'=>$m_id, ':send_date'=>date('Y-m-d H:i:s'), ':to_user'=>$viewData[0]['sale_user'], ':from_user'=>$viewData[0]['buy_user'], ':msg'=>$msg, ':create_date'=>date('Y-m-d  H:i:s'));
+      $data = array(':board_id'=>$m_id, ':send_date'=>date('Y-m-d H:i:s'), ':to_user'=>$partnerUserId, ':from_user'=>$_SESSION['user_id'], ':msg'=>$msg, ':create_date'=>date('Y-m-d  H:i:s'));
 
       debug('流し込みデータ:'.print_r($data, true));
       $stmt = queryPost($dbh, $sql, $data);
@@ -80,6 +203,8 @@ if(!empty($_POST['submit'])){
     }
   }
 }
+
+
 debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理終了');
 ?>
 
@@ -112,13 +237,18 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理終�
          </div>
 
          <section class="msg-container">
+           <!-- 商品と詳細データ -->
             <div class="msgProduct-container">
               <div class="user-data">
-                <img class="msg-pic" src="<?php echo showImg($saleUserData['pic']); ?>" alt="">
+                <img class="msg-pic" src="<?php echo sanitize($saleUserData['pic']);  ?>" alt="">
                 <div class="user-individual">
-                  <?php echo $saleUserData['username']; ?><br>
-                  <?php echo $saleUserData['addr']; ?><br>
-                  TEL:<?php echo $saleUserData['tel']; ?><br>
+                  <!-- 自分で自分の出品した商品は買わない -->
+                  <!-- 出品者 名前 -->
+                  <?php echo sanitize($saleUserData['username']); ?><br>
+                  <!-- 出品者住所 -->
+                  <?php echo sanitize($saleUserData['addr']); ?><br>
+                  <!-- 出品者の電話番号 -->
+                  TEL:<?php echo sanitize($saleUserData['tel']);  ?><br>
 
                 </div>
               </div>
@@ -135,41 +265,56 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理終�
 
 
             <!-- チャットメッセージ -->
+            <!-- チャットメッセージは、DBの情報を出すのでそのまま保持される -->
+            <!-- もし$viewDataにmsgがあった時......メッセージがDBに存在した時 -->
             <section class="msg-main">
               <div class="chat-container">
-
-                <?php if(!empty($viewData)): ?>
-
-                    <?php if(!empty($viewData[0]['msg'] && $_SESSION['user_id'] == $buyUserId)): ?>
-                     <?php foreach ($viewData as $key => $value): ?>
+            
+            <!-- もしメッセージがBDにあったら -->
+             <?php if(!empty($viewData[0]['msg'])){ ?>
+               <?php foreach($viewData as $key => $val){ ?>
+               <!-- from_user to_userどっちでもいいが、それが$partnerUserIdだった時 -->
+               <!-- つまりどっちかが$partnerUserIdとおなじ場合 　という状況を明示している -->
+                 <?php if(!empty($val['from_user']) && $val['from_user'] == $partnerUserId){ ?>
+                 <?php debug('from_user(送信元)がパートナーのIDです!'); ?>
+                     <!-- 左メッセージ -->
+                     <!-- パートナーの情報 -->
                       <div class="msg-left">
-                        <img class="chat-img-left" src="<?php echo $buyUserData['pic']; ?>" alt=""><br>
+                        <img class="chat-img-left" src="<?php echo sanitize(showImg($partnerUserData['pic']));  ?>" alt=><br>
                         <div class="chat-date">
-                          <?php  ?>
+                          
                         </div>
                         <div class="chat-msg-left" style="float: left;">
-                          <?php echo (!empty($msg))? $msg : $viewData[0]['msg']; ?>
+                         <!-- 購入者のメッセージを表示 -->
+                          <?php echo sanitize($val['msg']);  ?>
                         </div>
                       </div>
-                     <?php endforeach ?>
-                    <?php endif ?>
 
-                    <?php if(!empty($viewData[0]['msg'] && $_SESSION['user_id'] == $saleUserId)):  ?>
-                      <?php foreach($viewData as $key => $value): ?>
+
+                 <?php }else{ ?>
+                 <?php debug('msgのfrom_user(送信元)が今やり取りしているパートナーのIDではないです'); ?>
+                        <!-- 右のメッセージ -->
+                        <!-- $valのfrom_userが$_SESSION['user_id']の時 -->
+                        <!-- 自分の情報 -->
                         <div class="msg-right">
-                          <img class="chat-img-right" src="<?php echo $saleUserData['pic']; ?>"><br>
+                          <img class="chat-img-right" src="<?php echo sanitize(showImg($myUserData['pic'])); ?>"><br>
                           <div class="chat-date">
-                            <?php ?>
+                           
                           </div>
+                          
                           <div class="chat-msg-right" style="float: right;">
-                            <?php echo (!empty($msg))? $msg : $viewData[0]['msg']; ?>
+                            <?php echo sanitize($val['msg']);  ?>
                           </div>
-                       </div>
-                      <?php endforeach ?>               
-                    <?php endif ?>
-
-                <?php endif ?>
-                
+                        </div>
+             
+                <?php } ?>
+               <?php } ?>
+                      
+             <?php }else{ ?>
+                    <div class="non-msg"><?php echo 'まだメッセージは投稿されていません' ?></div>
+           <?php } ?>
+                   
+                      
               </div>
             </section>
 
@@ -178,10 +323,10 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理終�
             <form class="" action="" method="post">
               <textarea style="background: #A9A9A9;" name="msg" rows="8" cols="80"></textarea>0/180<br>
               <div class="msg-area">
-                <?php if(!empty($err_msg['msg'])) echo $err_msg['msg']; ?>
+                
               </div>
               <div class="btn-container">
-                <input type="submit" name="submit" class="btn-msg btn-mid" value="送信!">
+                <input type="submit" name="" class="btn-msg btn-mid" value="送信!">
               </div>
             </form>
          </section>

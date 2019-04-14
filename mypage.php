@@ -79,9 +79,9 @@ debug('ユーザーがお気に入りした商品たち:'.print_r($likeProduct, 
 $msgToMe = getMsg($u_id);
 debug('自分宛のメッセージ:'.print_r($msgToMe, true));
 
-// [0] => Array
+// [0] => Array //データはメッセージ
 //         (
-//             [id] => 10
+//             [id] => 10　　　ここのidを元にmsg.phpに遷移　　　$msgToMe[0]['id]
 //             [board_id] => 102
 //             [send_date] => 2019-04-03 08:32:47
 //             [to_user] => 7
@@ -92,8 +92,39 @@ debug('自分宛のメッセージ:'.print_r($msgToMe, true));
 //             [update_date] => 
 //         )
 
-$sendUserName = getUser($msgToMe[0]['to_user']);
+$sendUserName = getUser($msgToMe[0]['from_user']);
 debug('送信者の名前:'.print_r($sendUserName['username'], true));
+
+$buyBoardData = getMsgsAndBoard($msgToMe[0]['board_id']);
+debug('掲示板遷移のための掲示板の内容:'.print_r($buyBoardData, true));
+
+// [0] => Array
+//         (
+//             [m_id] => 1
+//             [board_id] => 1
+//             [send_date] => 2019-04-07 11:59:03
+//             [to_user] => 7
+//             [from_user] => 8
+//             [msg] => gewgeggqgqggq
+//             [sale_user] => 7
+//             [buy_user] => 8
+//             [product_id] => 50
+//             [create_date] => 2019-04-07 11:58:58
+//         )
+
+//     [1] => Array
+//         (
+//             [m_id] => 2
+//             [board_id] => 1
+//             [send_date] => 2019-04-07 11:59:17
+//             [to_user] => 7
+//             [from_user] => 8
+//             [msg] => gewgeggqgqggq
+//             [sale_user] => 7
+//             [buy_user] => 8
+//             [product_id] => 50
+//             [create_date] => 2019-04-07 11:58:58
+//         )
 
 
 
@@ -170,7 +201,7 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理�
                     <?php if(!empty($msgToMe)){ ?>
                     <?php $i=0; ?>
                     <?php foreach ($msgToMe as $key): ?>
-                      <tr><td><?php echo $msgToMe[0]['send_date']; ?></td><td><?php echo $sendUserName['username'];  ?></td><td><?php echo $msgToMe[0]['msg']; ?></td></tr>
+                      <tr><td><?php echo $msgToMe[0]['send_date']; ?></td><td><?php echo $sendUserName['username'];  ?></td><td><a href="msg.php?m_id=<?php echo $msgToMe[0]['board_id']; ?>"><?php echo $msgToMe[0]['msg']; ?></a></td></tr>
                     <?php $i++; ?>
                     <?php if($i == 4){ break; } ?>
                     <?php endforeach ?>

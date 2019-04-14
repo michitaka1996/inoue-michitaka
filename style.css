@@ -342,6 +342,11 @@
   border-top: 15px solid transparent;
   border-bottom: 15px solid transparent;
 }
+.non-msg{
+  font-size: 24px;
+  color: white;
+  text-align: center;
+}
 
 /*========================================
 マイページ
