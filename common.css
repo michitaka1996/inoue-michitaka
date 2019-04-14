@@ -184,10 +184,9 @@ input[type="text"], input[type="number"]{
   width: 100%;
   height: 45px;
   font-size: 16px;
+  border: none;
   -webkit-border-radius: 15px;
   font-family: FontAwesome;
-
-  /* margin-top: 20px; */
 }
 input[type="submit"]{
   font-size: 20px;
@@ -195,9 +194,9 @@ input[type="submit"]{
   color: white;
   width: 100%;
   border-radius: 10px;
+  border: none;
   
   padding: 10px 15px;
-  margin-top: 30px;
 }
 input[type="submit"]:hover{
   opacity: 0.8;
@@ -208,6 +207,7 @@ textarea{
   height: 120px;
   -webkit-border-radius: 15px;
   font-size: 20px;
+  border: none;
 }
 .btn-container{
   float: right;
@@ -355,7 +355,7 @@ PHP サーバ側でのバリデーションチェック
 
   margin-left: auto;
   margin-right: auto;
-  margin-top: 70px;
+  margin-top: 40px;
 }
 .page-registProduct .area-drop{
   background: white;

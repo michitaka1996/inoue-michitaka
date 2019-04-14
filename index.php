@@ -90,7 +90,7 @@ debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理終�
             </div>
 
             <div class="btn search-btn">
-              <input type="submit" value="検索">
+              <input type="submit" value="検索" style="margin-top:60px;">
             </div>
            
            <form>

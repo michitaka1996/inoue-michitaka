@@ -534,7 +534,13 @@ td{
 
  margin-top: 40px;
 }
+.btn-atk{
+  font-size:40px; 
+  border-radius: 300px; 
+  height:200px; 
+  margin-top:60px;
 
+}
 
 
 
