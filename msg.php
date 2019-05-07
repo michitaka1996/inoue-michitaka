@@ -15,38 +15,6 @@ debug('受け渡した掲示板情報:'.print_r($m_id, true));
 // boardとmessageテーブルが必要である
 $viewData = getMsgsAndBoard($m_id); //掲示板とメッセージ
 debug('取得した掲示板とメッセージ情報:'.print_r($viewData, true));
-// debug('出品者のID:'.print_r($viewData[0]['sale_user'], true));
-//ビューデータ
-
-//   [0] => Array
-//         (
-//             [m_id] => 1
-//             [board_id] => 1
-//             [send_date] => 2019-04-07 11:59:03
-//             [to_user] => 7
-//             [from_user] => 8
-//             [msg] => gewgeggqgqggq    messageボード
-
-//             [sale_user] => 7
-//             [buy_user] => 8
-//             [product_id] => 50
-//             [create_date] => 2019-04-07 11:58:58
-//         )
-
-//     [1] => Array
-//         (
-//             [m_id] => 2
-//             [board_id] => 1
-//             [send_date] => 2019-04-07 11:59:17
-//             [to_user] => 7
-//             [from_user] => 8
-//             [msg] => gewgeggqgqggq   messageボード
-
-//             [sale_user] => 7
-//             [buy_user] => 8
-//             [product_id] => 50
-//             [create_date] => 2019-04-07 11:58:58
-//         )
 debug('メッセージ情報:'.print_r($viewData[0]['board_id'], true));
 
 
@@ -69,27 +37,10 @@ debug('取得した相手のユーザーID:'.print_r($partnerUserId, true));
 //自分のユーザーID
 $myUserId = $_SESSION['user_id'];
 
-
-
-
 //パートナーの情報
 //自分で自分の商品は買わないとするので、パートナーの情報=出品者という考えかたで良い
 $partnerUserData = getUser($partnerUserId);
 debug('パートナーのユーザー情報:'.print_r($partnerUserData, true));
-    // [id] => 7
-    // [username] => たろうだよ
-    // [email] => unkotaro@gmail.com
-    // [tel] => 09030593820
-    // [addr] => 大阪府大阪市札幌町ハイツ中村494
-    // [age] => 22
-    // [password] => $2y$10$doypJmreYuqA/yTgaHEALOdmppM8fw5xDPYzVtfXX/.iaWKTbtjaC
-    // [login_time] => 2019-03-25 04:15:25
-    // [pic] => uploads/1c9e4613fc11b0b0ecd76f46f6410d164b2ac535.jpeg
-    // [delete_flg] => 0
-    // [create_date] => 2019-03-25 04:15:25
-    // [update_date] => 2019-03-25 13:15:25
-
-
 if(empty($partnerUserData)){
   debug('エラー:パートナーの情報が取得できませんでした');
   header("Location:mypage.php");
@@ -102,20 +53,6 @@ if(empty($partnerUserData)){
 //自分の情報
 $myUserData = getUser($myUserId);
 debug('自分のユーザー情報:'.print_r($myUserData, true));
-
-    // [id] => 8
-    // [username] => えええ
-    // [email] => michirug11@i.softbank.jp
-    // [tel] => 09030593821
-    // [addr] => sssssss
-    // [age] => 6
-    // [password] => $2y$10$iNHmYS7863S/hc8kfw4uEutJVmo1OxJlldyr34vQjhPD55fpih.3u
-    // [login_time] => 2019-03-29 12:28:45
-    // [pic] => uploads/ee99518633a62fcd56e4f49536aa2558cf8fb7cd.jpeg
-    // [delete_flg] => 0
-    // [create_date] => 2019-03-29 12:28:45
-    // [update_date] => 2019-03-29 21:28:45
-
 if(empty($myUserData)){
   debug('エラー:自分の情報が取得できませんでした');
   header("Location:mypage.php");
@@ -137,32 +74,12 @@ debug('出品者のID:'.print_r($saleUserId, true));
 $saleUserData = getUser($saleUserId);
 debug('出品者の情報:'.print_r($saleUserData, true));
 
-// 　  [id] => 7
-//     [username] => たろうだよ
-//     [email] => unkotaro@gmail.com
-//     [tel] => 09030593820
-//     [addr] => 大阪府大阪市札幌町ハイツ中村494
-//     [age] => 22
-//     [password] => $2y$10$doypJmreYuqA/yTgaHEALOdmppM8fw5xDPYzVtfXX/.iaWKTbtjaC
-//     [login_time] => 2019-03-25 04:15:25
-//     [pic] => uploads/1c9e4613fc11b0b0ecd76f46f6410d164b2ac535.jpeg
-//     [delete_flg] => 0
-//     [create_date] => 2019-03-25 04:15:25
-//     [update_date] => 2019-03-25 13:15:25
-
 if(empty($saleUserData)){
   debug('この商品の出品者の情報が取得できませんでした');
   header("Location:mypage.php");
 }
 
 
-
-
-
-//バリデーションチェックしてDBに挿入
-//from_userはパートナーのId　とto_userは自分のID　を挿入
-//from_userは誰へ向けたmsgか(パートナーへ)、to_userは誰からのmsgか(自分) を判断する
-//元となる$viewDataは、どっちに誰のidが入っているか明示されていないため、配列操作の関数を使うことで分けなければいけない
 
 
 
