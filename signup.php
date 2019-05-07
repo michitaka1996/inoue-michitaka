@@ -19,6 +19,7 @@ debug('POST情報：'.print_r($_POST, true));
   $email = $_POST['email'];
   $pass = $_POST['pass'];
   $pass_re = $_POST['pass_re'];
+  debug('メールじょうほう'.print_r($_POST['email']), true);
 
   //バリデーション
   validRequired($email, 'email');

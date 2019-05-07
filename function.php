@@ -60,8 +60,12 @@ function dbConnect()
     PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
   );
   $dbh = new PDO($dsn, $user, $password, $options);
+
+  error_log('返したデータベースハンドラ:'.print_r($dbh, true));
   return $dbh;
 }
+
+
 //DB接続実行関数
 function queryPost($dbh, $sql, $data)
 {
@@ -85,6 +89,10 @@ function queryPost($dbh, $sql, $data)
     return $stmt;
   }
 }
+//ここまで
+
+
+
 
 //サニタイズ
 function sanitize($str)
